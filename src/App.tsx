@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from 'react'
 import Matter from 'matter-js'
 import React from 'react'
 
+type BodyExt = Matter.Body & { label?: string; customType?: string; textColor?: string; tooltip?: string }
+
 // --- Icons ---
 const XLogo = ({ size = 16, className }: { size?: number, className?: string }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -208,7 +210,7 @@ const UseItem = ({ name, category, icon: Icon }: { name: string, category?: stri
   </div>
 )
 
-const RoleTooltip = ({ role, content, icon: Icon }: { role: string, content: string, icon: any }) => {
+const RoleTooltip = ({ role, content }: { role: string, content: string, icon?: unknown }) => {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
@@ -309,15 +311,14 @@ const DynamicIsland = () => {
 // --- Physics Playground ---
 
 const PhysicsPlayground = ({ isDark }: { isDark: boolean }) => {
-  const sceneRef = useRef(null)
-  const engineRef = useRef(null)
+  const sceneRef = useRef<HTMLDivElement | null>(null)
+  const engineRef = useRef<Matter.Engine | null>(null)
 
   useEffect(() => {
     if (!sceneRef.current) return
 
     // Physics Engine Setup
     const Engine = Matter.Engine,
-      World = Matter.World,
       Bodies = Matter.Bodies,
       Mouse = Matter.Mouse,
       MouseConstraint = Matter.MouseConstraint,
@@ -357,7 +358,7 @@ const PhysicsPlayground = ({ isDark }: { isDark: boolean }) => {
     const strokeColor = isDark ? '#333' : '#e5e5e5'
 
     // Objects Generator (optional tooltip for hover)
-    const createTextBody = (x, y, text, type = 'text', color = textColorStart, bgColor = 'transparent', tooltip = '') => {
+    const createTextBody = (x: number, y: number, text: string, type = 'text', color = textColorStart, bgColor = 'transparent', tooltip = '') => {
       const isEmoji = type === 'emoji'
 
       let w, h, radius
@@ -384,14 +385,15 @@ const PhysicsPlayground = ({ isDark }: { isDark: boolean }) => {
         }
       })
 
-      body.label = text
-      body.customType = type
-      body.textColor = color
-      body.tooltip = tooltip
+      const b = body as BodyExt
+      b.label = text
+      b.customType = type
+      b.textColor = color
+      b.tooltip = tooltip
       return body
     }
 
-    const createShape = (x, y, type, color) => {
+    const createShape = (x: number, y: number, type: string, color: string) => {
       if (type === 'circle') {
         return Bodies.circle(x, y, 20 + Math.random() * 20, {
           render: { fillStyle: color, strokeStyle: 'transparent' },
@@ -410,7 +412,7 @@ const PhysicsPlayground = ({ isDark }: { isDark: boolean }) => {
         })
       }
     }
-    const createLogoBody = (x, y) => {
+    const createLogoBody = (x: number, y: number) => {
       // Reduced radius from 40 to 36 (10% smaller)
       const body = Bodies.circle(x, y, 36, {
         render: {
@@ -421,9 +423,10 @@ const PhysicsPlayground = ({ isDark }: { isDark: boolean }) => {
         friction: 0.005,
         density: 0.04
       })
-      body.label = "MK."
-      body.customType = "logo"
-      body.textColor = isDark ? '#000' : '#fff'
+      const b = body as BodyExt
+      b.label = "MK."
+      b.customType = "logo"
+      b.textColor = isDark ? '#000' : '#fff'
       return body
     }
 
@@ -479,17 +482,19 @@ const PhysicsPlayground = ({ isDark }: { isDark: boolean }) => {
     }
     canvas.addEventListener('mouseleave', handleMouseLeave)
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect()
       const scaleX = canvas.width / rect.width
       const scaleY = canvas.height / rect.height
       const x = (e.clientX - rect.left) * scaleX
       const y = (e.clientY - rect.top) * scaleY
       const bodiesAtPoint = Query.point(Composite.allBodies(engine.world), { x, y })
-      const withTooltip = bodiesAtPoint.find(b => b.tooltip)
-      const containerRect = sceneRef.current.getBoundingClientRect()
+      const withTooltip = bodiesAtPoint.find((b): b is BodyExt => !!(b as BodyExt).tooltip)
+      const container = sceneRef.current
+      if (!container) return
+      const containerRect = container.getBoundingClientRect()
       if (withTooltip) {
-        tooltipEl.textContent = withTooltip.tooltip
+        tooltipEl.textContent = (withTooltip as BodyExt).tooltip ?? null
         tooltipEl.style.left = (e.clientX - containerRect.left + 14) + 'px'
         tooltipEl.style.top = (e.clientY - containerRect.top + 14) + 'px'
         tooltipEl.style.opacity = '1'
@@ -500,11 +505,14 @@ const PhysicsPlayground = ({ isDark }: { isDark: boolean }) => {
     canvas.addEventListener('mousemove', handleMouseMove)
 
     // Scroll fixing for mouse
-    mouse.element.removeEventListener("mousewheel", mouse.mousewheel)
-    mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel)
+    const m = mouse as Matter.Mouse & { mousewheel?: (e: Event) => void }
+    if (m.mousewheel) {
+      mouse.element.removeEventListener("mousewheel", m.mousewheel)
+      mouse.element.removeEventListener("DOMMouseScroll", m.mousewheel)
+    }
 
     // Custom Render Loop
-    let animationFrameId
+    let animationFrameId: number | undefined
     const renderLoop = () => {
       Engine.update(engine, 1000 / 60)
 
@@ -513,6 +521,10 @@ const PhysicsPlayground = ({ isDark }: { isDark: boolean }) => {
       // Draw Bodies
       Composite.allBodies(engine.world).forEach(body => {
         if (body.render.visible === false) return
+        const ext = body as BodyExt
+        const fillStyle = body.render.fillStyle ?? 'transparent'
+        const strokeStyle = body.render.strokeStyle ?? 'transparent'
+        const lineWidth = body.render.lineWidth ?? 0
 
         ctx.beginPath()
         const vertices = body.vertices
@@ -523,30 +535,30 @@ const PhysicsPlayground = ({ isDark }: { isDark: boolean }) => {
         ctx.lineTo(vertices[0].x, vertices[0].y)
         ctx.closePath()
 
-        ctx.fillStyle = body.render.fillStyle
-        ctx.strokeStyle = body.render.lineWidth ? body.render.strokeStyle : 'transparent'
-        ctx.lineWidth = body.render.lineWidth || 0
-        if (body.render.fillStyle !== 'transparent') ctx.fill()
-        if (body.render.lineWidth > 0) ctx.stroke()
+        ctx.fillStyle = fillStyle
+        ctx.strokeStyle = lineWidth ? strokeStyle : 'transparent'
+        ctx.lineWidth = lineWidth
+        if (fillStyle !== 'transparent') ctx.fill()
+        if (lineWidth > 0) ctx.stroke()
 
         // Text Rendering
-        if (body.customType) {
+        if (ext.customType) {
           ctx.save()
           ctx.translate(body.position.x, body.position.y)
           ctx.rotate(body.angle)
           ctx.textAlign = 'center'
           ctx.textBaseline = 'middle'
-          if (body.customType === 'emoji') {
+          if (ext.customType === 'emoji') {
             ctx.font = '32px serif'
-            ctx.fillText(body.label, 0, 4)
-          } else if (body.customType === 'text') {
-            ctx.fillStyle = body.textColor
+            ctx.fillText(ext.label ?? '', 0, 4)
+          } else if (ext.customType === 'text') {
+            ctx.fillStyle = ext.textColor ?? '#000'
             ctx.font = 'bold 12px sans-serif'
-            ctx.fillText(body.label.toUpperCase(), 0, 1)
-          } else if (body.customType === 'logo') {
-            ctx.fillStyle = body.textColor
+            ctx.fillText((ext.label ?? '').toUpperCase(), 0, 1)
+          } else if (ext.customType === 'logo') {
+            ctx.fillStyle = ext.textColor ?? '#000'
             ctx.font = 'bold 24px sans-serif'
-            ctx.fillText(body.label, 0, 4)
+            ctx.fillText(ext.label ?? '', 0, 4)
           }
           ctx.restore()
         }
@@ -558,7 +570,7 @@ const PhysicsPlayground = ({ isDark }: { isDark: boolean }) => {
     renderLoop()
 
     return () => {
-      cancelAnimationFrame(animationFrameId)
+      if (animationFrameId != null) cancelAnimationFrame(animationFrameId)
       Engine.clear(engine)
       canvas.removeEventListener('mouseleave', handleMouseLeave)
       canvas.removeEventListener('mousemove', handleMouseMove)
