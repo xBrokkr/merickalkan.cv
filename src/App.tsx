@@ -802,7 +802,7 @@ function App() {
             <UseItem name="Interaction Design" icon={MousePointer2} />
             <UseItem name="Visual Prototyping" icon={Palette} />
             <UseItem name="Creative Coding" icon={Code} />
-            <UseItem name="AI-Assisted Design" icon={Box} />
+            <UseItem name="Vibecoding" icon={Box} />
             <UseItem name="Framer" icon={Layout} />
             <UseItem name="Figma" icon={PenTool} />
             <UseItem name="Illustrator" icon={PenTool} />
