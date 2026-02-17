@@ -183,7 +183,7 @@ const MediaItem = ({ title, platform, type, link, icon: Icon }: { title: string,
   </motion.a>
 )
 
-const TestimonialItem = ({ quote, author, role }: { quote: string, author: string, role: string }) => (
+const TestimonialItem = ({ quote, author, role }: { quote: string | React.ReactNode, author: string, role: string | React.ReactNode }) => (
   <div className="p-8 bg-neutral-50 dark:bg-neutral-900 rounded-3xl border border-neutral-100 dark:border-neutral-800 relative h-full flex flex-col justify-between hover:shadow-lg hover:shadow-neutral-100 dark:hover:shadow-none transition-all duration-300">
     <div>
       <span className="text-6xl font-serif text-neutral-200 dark:text-neutral-800 block mb-[-20px] leading-none select-none">"</span>
@@ -966,7 +966,19 @@ function App() {
             <TestimonialItem
               quote="After starting to work with Meriç, one thing became very clear to me: despite his young age, his vision, discipline, and productivity are ahead of many others. He doesn’t approach projects only from a design or technical perspective; he first tries to truly understand the brand and its needs. This directly reflects on the quality of the final outcome. He’s easy to communicate with, quick at finding solutions, and very clear when it comes to taking responsibility. In most of the projects we’ve done together, the results went beyond our expectations. I genuinely believe the energy and leadership behind Floyka bring real value to the brands they work with."
               author="Melih Can Maviş"
-              role="CEO @ Fork.com.tr"
+              role={
+                <span>
+                  CEO @{" "}
+                  <a
+                    href="https://fork.com.tr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-black dark:hover:text-white transition-colors underline underline-offset-2"
+                  >
+                    Fork.com.tr
+                  </a>
+                </span>
+              }
             />
             <TestimonialItem
               quote="Floyka Studio's work on our design system was transformative. The attention to detail is unmatched."
