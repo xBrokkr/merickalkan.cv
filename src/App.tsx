@@ -799,6 +799,7 @@ function App() {
           <SectionTitle>Tools I Create With</SectionTitle>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <UseItem name="Design Systems" icon={Layers} />
+            <UseItem name="Project Branding" icon={Layers} />
             <UseItem name="Interaction Design" icon={MousePointer2} />
             <UseItem name="Visual Prototyping" icon={Palette} />
             <UseItem name="Creative Coding" icon={Code} />
