@@ -824,7 +824,7 @@ function App() {
             />
             <ExperienceItem
               role="Creative Director"
-              company="Floyka"
+              company="Floyka Design Studio"
               period="Apr 2023 — Present"
               description={<>Designing and developing digital products, tools, and brand systems across web and on-chain contexts. Leads <strong>Floyka Labs</strong>, an experimental design research initiative testing and sharing new interaction and visual concepts.</>}
             />
@@ -865,7 +865,7 @@ function App() {
                   role="Content Creator"
                   company="Technoswap"
                   period="2020 — 2022"
-                  description="Started Web3 content presence and grew early audience."
+                  description="Publishing technology news and grew its initial audience."
                 />
               </div>
             </div>
