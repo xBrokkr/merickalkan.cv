@@ -981,9 +981,9 @@ function App() {
               }
             />
             <TestimonialItem
-              quote="Floyka Studio's work on our design system was transformative. The attention to detail is unmatched."
-              author="Framer Partner"
-              role="Client"
+              quote="Beyond his technical and product skills, Meric is simply someone you can trust to take responsibility and deliver meaningful work."
+              author="Hürsel Çay"
+              role="Avalanche Team1 Turkiye Operations Lead "
             />
           </div>
         </section>
