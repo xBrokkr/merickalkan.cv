@@ -964,9 +964,9 @@ function App() {
           <SectionTitle>References</SectionTitle>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <TestimonialItem
-              quote="Meriç brings a unique blend of aesthetic sensibility and technical depth that is rare in the Web3 space. A true craftsman."
-              author="Avalanche Team1"
-              role="Community Lead"
+              quote="After starting to work with Meriç, one thing became very clear to me: despite his young age, his vision, discipline, and productivity are ahead of many others. He doesn’t approach projects only from a design or technical perspective; he first tries to truly understand the brand and its needs. This directly reflects on the quality of the final outcome. He’s easy to communicate with, quick at finding solutions, and very clear when it comes to taking responsibility. In most of the projects we’ve done together, the results went beyond our expectations. I genuinely believe the energy and leadership behind Floyka bring real value to the brands they work with."
+              author="Melih Can Maviş"
+              role="CEO @ Fork.com.tr"
             />
             <TestimonialItem
               quote="Floyka Studio's work on our design system was transformative. The attention to detail is unmatched."
