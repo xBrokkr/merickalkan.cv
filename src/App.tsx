@@ -748,14 +748,7 @@ function App() {
 
             <div className="mt-6">
               <div className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 mb-2">Support my work</div>
-              <iframe
-                src="https://soci4l.net/embed/donate/0xbrokkr"
-                width="350"
-                height="80"
-                frameBorder="0"
-                style={{ border: 'none', overflow: 'hidden' }}
-                scrolling="no"
-              />
+              <iframe src="https://soci4l.net/embed/donate/0xbrokkr" width="350" height="80" frameborder="0" style="border:none; overflow:hidden;" scrolling="no"></iframe>
             </div>
           </motion.div>
         </section>
