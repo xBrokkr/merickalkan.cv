@@ -745,6 +745,19 @@ function App() {
               <SocialLink href="https://github.com/xBrokkr" icon={Github} label="GitHub" tooltip="Code" />
               <SocialLink href="mailto:merickalkan@icloud.com" icon={Mail} label="Email" tooltip="Contact Me" />
             </div>
+
+            <div className="mt-6">
+              <div className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 mb-2">Support my work</div>
+              <iframe
+                src="https://soci4l.net/embed/donate/0xbrokkr"
+                width="350"
+                height="80"
+                frameBorder="0"
+                style={{ border: 'none', overflow: 'hidden', borderRadius: '12px' }}
+                scrolling="no"
+                title="SOCI4L Donate"
+              />
+            </div>
           </motion.div>
         </section>
 
