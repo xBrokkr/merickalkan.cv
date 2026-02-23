@@ -753,9 +753,8 @@ function App() {
                 width="350"
                 height="80"
                 frameBorder="0"
-                style={{ border: 'none', overflow: 'hidden', borderRadius: '12px' }}
+                style={{ border: 'none', overflow: 'hidden' }}
                 scrolling="no"
-                title="SOCI4L Donate"
               />
             </div>
           </motion.div>
