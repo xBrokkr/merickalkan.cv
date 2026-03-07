@@ -746,9 +746,15 @@ function App() {
               <SocialLink href="mailto:merickalkan@icloud.com" icon={Mail} label="Email" tooltip="Contact Me" />
             </div>
 
-            <div className="mt-6">
-              <div className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 mb-2">Support my work</div>
-              <iframe src="https://soci4l.net/embed/donate/0xbrokkr" width="350" height="80" frameBorder="0" style={{ border: 'none', overflow: 'hidden' }} scrolling="no"></iframe>
+            <div className="mt-6 flex flex-col sm:flex-row gap-6">
+              <div className="flex flex-col gap-2">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Support my work (C-Chain)</span>
+                <iframe src="https://soci4l.net/embed/donate/0xbrokkr" width="350" height="80" frameBorder="0" style={{ border: 'none', overflow: 'hidden' }} scrolling="no"></iframe>
+              </div>
+              <div className="flex flex-col gap-2">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Support my work (Fuji testnet for Build Games)</span>
+                <iframe src="https://testnet.soci4l.net/embed/donate/0xbrokkr" width="350" height="80" frameBorder="0" style={{ border: 'none', overflow: 'hidden' }} scrolling="no"></iframe>
+              </div>
             </div>
           </motion.div>
         </section>
@@ -932,31 +938,6 @@ function App() {
               badges={["Identity", "On-chain UX", "Product"]}
             />
 
-            {/* SOCI4L Donate Embeds */}
-            <div className="flex flex-col sm:flex-row gap-6 pt-2 pb-4">
-              <div className="flex flex-col gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Support my work (C-Chain)</span>
-                <iframe
-                  src="https://soci4l.net/embed/donate/0xbrokkr"
-                  width="350"
-                  height="80"
-                  frameBorder="0"
-                  style={{ border: 'none', overflow: 'hidden' }}
-                  scrolling="no"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Support my work (Fuji testnet for Build Games)</span>
-                <iframe
-                  src="https://testnet.soci4l.net/embed/donate/0xbrokkr"
-                  width="350"
-                  height="80"
-                  frameBorder="0"
-                  style={{ border: 'none', overflow: 'hidden' }}
-                  scrolling="no"
-                />
-              </div>
-            </div>
 
             <WorkItem
               title="Floyka"
