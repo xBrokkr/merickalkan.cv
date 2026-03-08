@@ -753,7 +753,7 @@ function App() {
               </div>
               <div className="flex flex-col gap-2">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Support my work (Fuji testnet for Build Games)</span>
-                <iframe src="https://testnet.soci4l.net/embed/donate/0xbrokkr" width="350" height="80" frameBorder="0" style={{ border: 'none', overflow: 'hidden' }} scrolling="no"></iframe>
+                <iframe src="https://testnet.soci4l.net/embed/donate/xbrokkr" width="350" height="80" frameBorder="0" style={{ border: 'none', overflow: 'hidden' }} scrolling="no"></iframe>
               </div>
             </div>
           </motion.div>
