@@ -751,10 +751,6 @@ function App() {
                 <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Support my work (C-Chain)</span>
                 <iframe src="https://soci4l.net/embed/donate/0xbrokkr" width="350" height="80" frameBorder="0" style={{ border: 'none', overflow: 'hidden' }} scrolling="no"></iframe>
               </div>
-              <div className="flex flex-col gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Support my work (Fuji testnet for Build Games)</span>
-                <iframe src="https://testnet.soci4l.net/embed/donate/xffruktoz" width="350" height="80" frameBorder="0" style={{ border: 'none', overflow: 'hidden' }} scrolling="no"></iframe>
-              </div>
             </div>
           </motion.div>
         </section>
