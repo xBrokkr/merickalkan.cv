@@ -1,8 +1,9 @@
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
-import { ArrowUpRight, Github, Linkedin, Mail, MousePointer2, Mic, Layout, PenTool, Code, Layers, Box, MapPin, Palette, Moon, Sun, Download } from 'lucide-react'
+import { ArrowUpRight, Github, Linkedin, Mail, MousePointer2, Code, MapPin, Palette, Moon, Sun, Download } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import Matter from 'matter-js'
 import React from 'react'
+import { experience, earlierExperience, products, alsoLinks, clientWork, marketplaceProfile, selectedWork, testimonials, partnerBadges, skills, tools, education, location, contact } from './content'
 
 type BodyExt = Matter.Body & { label?: string; customType?: string; textColor?: string; tooltip?: string }
 
@@ -161,28 +162,6 @@ const ExperienceItem = ({ role, company, period, description, muted }: { role: s
   )
 }
 
-const MediaItem = ({ title, platform, type, link, icon: Icon }: { title: string, platform: string, type: string, link: string, icon: any }) => (
-  <motion.a
-    href={link}
-    target="_blank"
-    whileHover={{ x: 10 }}
-    className="flex items-center gap-4 py-4 border-b border-neutral-100 dark:border-neutral-800 last:border-0 group cursor-pointer"
-  >
-    <div className="w-12 h-12 rounded-full bg-neutral-50 dark:bg-neutral-900 flex items-center justify-center text-neutral-500 dark:text-neutral-400 group-hover:bg-black dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-black transition-colors duration-300">
-      <Icon size={20} />
-    </div>
-    <div className="flex-grow">
-      <h4 className="text-[14px] font-bold text-black dark:text-white group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors">{title}</h4>
-      <div className="flex items-center gap-2 text-[11px] font-medium text-neutral-400">
-        <span className="uppercase tracking-wider">{platform}</span>
-        <span className="w-1 h-1 rounded-full bg-neutral-300" />
-        <span>{type}</span>
-      </div>
-    </div>
-    <ArrowUpRight size={14} className="text-neutral-300 group-hover:text-black transition-colors opacity-0 group-hover:opacity-100" />
-  </motion.a>
-)
-
 const TestimonialItem = ({ quote, author, role }: { quote: string, author: string, role: string }) => (
   <div className="p-8 bg-neutral-50 dark:bg-neutral-900 rounded-3xl border border-neutral-100 dark:border-neutral-800 relative h-full flex flex-col justify-between hover:shadow-lg hover:shadow-neutral-100 dark:hover:shadow-none transition-all duration-300">
     <div>
@@ -293,7 +272,7 @@ const DynamicIsland = () => {
             </div>
             <div className="flex flex-col justify-center whitespace-nowrap overflow-hidden">
               <span className="text-[13px] font-semibold text-white leading-tight">Meriç Kalkan</span>
-              <span className="text-[11px] text-white/50 font-medium">Creative Director</span>
+              <span className="text-[11px] text-white/50 font-medium">Designer & Builder</span>
             </div>
           </div>
 
@@ -434,7 +413,7 @@ const PhysicsPlayground = ({ isDark }: { isDark: boolean }) => {
       createLogoBody(width / 2, 80),
       // Experiment themes
       createTextBody(width / 3, 50, 'Identity', 'text', bubbleText, bubbleBg),
-      createTextBody(width / 1.5, 50, 'Profiles', 'text', bubbleText, bubbleBg),
+      createTextBody(width / 1.5, 50, 'Reputation', 'text', bubbleText, bubbleBg),
       createTextBody(width / 5, 150, 'On-chain', 'text', bubbleBg, bubbleText),
       createTextBody(width / 1.2, 150, 'Systems', 'text', bubbleText, bubbleBg),
       createTextBody(width / 2.5, 200, 'Tools', 'text', bubbleText, bubbleBg),
@@ -444,9 +423,9 @@ const PhysicsPlayground = ({ isDark }: { isDark: boolean }) => {
       createTextBody(width / 1.6, 80, 'Data', 'text', bubbleText, bubbleBg),
       createTextBody(width / 3, 220, 'Motion', 'text', bubbleBg, bubbleText),
       // Product names (with hover tooltips)
-      createTextBody(width / 2, 80, 'SOCI4L', 'text', bubbleText, bubbleBg, 'Wallet identity system'),
+      createTextBody(width / 2, 80, 'SOCI4L', 'text', bubbleText, bubbleBg, 'On-chain reputation layer'),
       createTextBody(width / 1.1, 200, 'ColorSense', 'text', bubbleText, bubbleBg, 'AI color tool'),
-      createTextBody(width / 2.2, 300, 'ImageTools', 'text', bubbleBg, bubbleText, 'Framer image pipeline'),
+      createTextBody(width / 2.2, 300, 'Team1', 'text', bubbleBg, bubbleText, 'Avalanche Türkiye community'),
       createTextBody(width / 3.5, 90, 'Floyka', 'text', bubbleText, bubbleBg, 'Digital product studio'),
       createTextBody(width / 1.4, 280, 'Labs', 'text', bubbleBg, bubbleText, 'Experimental design research'),
       // Emojis
@@ -692,7 +671,7 @@ function App() {
               >
                 <RoleTooltip
                   role="Creative Director"
-                  content="Correcting brand vision, visual identity, and strategic design operations at Floyka.space."
+                  content="Directing brand vision, visual identity, and design systems at Floyka Design Studio."
                   icon={Palette}
                 />
               </motion.div>{' '}
@@ -710,8 +689,8 @@ function App() {
                 transition={{ delay: 0.4 }}
               >
                 <RoleTooltip
-                  role="Frontend Architect"
-                  content="Building scalable component libraries, design systems, and high-performance interactive interfaces."
+                  role="Product Builder"
+                  content="Building SOCI4L on Avalanche, and design tools used across the Framer and Figma communities."
                   icon={Code}
                 />
               </motion.div>{' '}
@@ -720,7 +699,7 @@ function App() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                who designs brands and experiences, then builds them into working products.
+                who designs brand systems and ships them as working products.
               </motion.span>
             </h1>
 
@@ -740,10 +719,10 @@ function App() {
             </div>
 
             <div className="flex flex-wrap gap-3 items-center">
-              <SocialLink href="https://x.com/0xBrokkr" icon={XLogo} label="X" tooltip="@0xBrokkr" />
-              <SocialLink href="https://linkedin.com/in/brokkr" icon={Linkedin} label="LinkedIn" tooltip="Connect" />
-              <SocialLink href="https://github.com/xBrokkr" icon={Github} label="GitHub" tooltip="Code" />
-              <SocialLink href="mailto:merickalkan@icloud.com" icon={Mail} label="Email" tooltip="Contact Me" />
+              <SocialLink href={contact.x} icon={XLogo} label="X" tooltip={contact.xHandle} />
+              <SocialLink href={contact.linkedin} icon={Linkedin} label="LinkedIn" tooltip="Connect" />
+              <SocialLink href={contact.github} icon={Github} label="GitHub" tooltip="Code" />
+              <SocialLink href={`mailto:${contact.email}`} icon={Mail} label="Email" tooltip="Contact Me" />
             </div>
           </motion.div>
         </section>
@@ -757,39 +736,44 @@ function App() {
               I progressed by building systems and experiences, driven by a curiosity that spanned from games to software, and from visuals to products.
             </p>
             <p className="text-[14px] leading-relaxed text-neutral-500 font-medium mb-6">
-              Now I work on transforming new ideas into tangible and usable structures.
+              Today that means shipping constantly: leading SOCI4L, an on-chain reputation layer on Avalanche; building 12 plugins for the Framer and Figma marketplaces; and delivering brand and web systems through Floyka for clients ranging from developer platforms to IRL conferences.
               The fields may change, but my approach remains the same: think, build, run, share.
+            </p>
+            <p className="text-[14px] leading-relaxed text-neutral-500 font-medium mb-6">
+              I work AI-augmented by default: agentic workflows handle the repetitive parts of design and code, so I can focus on direction, systems, and quality. It's how one person ships at the pace of a small studio.
+            </p>
+            <p className="text-[14px] leading-relaxed text-neutral-500 font-medium mb-6">
+              Alongside building, I help grow the Avalanche Türkiye community with Team1, telling the ecosystem's story and spotlighting the builders behind it.
             </p>
           </div>
           <div>
             <SectionTitle>Skills & Stack</SectionTitle>
             <div className="flex flex-wrap gap-1.5 mb-4">
-              <span className="px-2.5 py-1 bg-neutral-200/80 dark:bg-neutral-700/80 text-neutral-600 dark:text-neutral-300 rounded-md text-[10px] font-semibold uppercase tracking-wider">Framer Partner</span>
-              <span className="px-2.5 py-1 bg-neutral-200/80 dark:bg-neutral-700/80 text-neutral-600 dark:text-neutral-300 rounded-md text-[10px] font-semibold uppercase tracking-wider">Avalanche Builder</span>
+              {partnerBadges.map(b => (
+                <span key={b} className="px-2.5 py-1 bg-neutral-200/80 dark:bg-neutral-700/80 text-neutral-600 dark:text-neutral-300 rounded-md text-[10px] font-semibold uppercase tracking-wider">{b}</span>
+              ))}
             </div>
             <div className="flex flex-wrap gap-2 mb-8">
-              {['Product & System Design', 'Digital Product Development', 'On-chain Product Thinking', 'Creative Engineering', 'Interface & Interaction'].map(s => (
+              {skills.map(s => (
                 <span key={s} className="px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 rounded-lg text-[11px] font-bold uppercase tracking-wider">{s}</span>
               ))}
             </div>
 
             <SectionTitle>Education</SectionTitle>
             <ul className="space-y-4">
-              <li className="flex justify-between items-baseline border-b border-neutral-100 dark:border-neutral-800 pb-2">
-                <span className="font-bold text-[13px] text-black dark:text-white">Sakarya University</span>
-                <span className="text-[11px] text-neutral-400 text-right">Econometrics<br />2024 — Present</span>
-              </li>
-              <li className="flex justify-between items-baseline border-b border-neutral-100 dark:border-neutral-800 pb-2">
-                <span className="font-bold text-[13px] text-black dark:text-white">High School</span>
-                <span className="text-[11px] text-neutral-400">2019 — 2023</span>
-              </li>
+              {education.map(e => (
+                <li key={e.school} className="flex justify-between items-baseline border-b border-neutral-100 dark:border-neutral-800 pb-2">
+                  <span className="font-bold text-[13px] text-black dark:text-white">{e.school}</span>
+                  <span className="text-[11px] text-neutral-400 text-right">{e.detail ? <>{e.detail}<br /></> : null}{e.period}</span>
+                </li>
+              ))}
             </ul>
 
             <div className="mt-8 p-4 bg-neutral-950 dark:bg-neutral-900 border border-transparent dark:border-neutral-800 text-white rounded-2xl">
               <div className="flex items-center gap-2 mb-2 text-[11px] font-bold uppercase tracking-widest text-neutral-400">
                 <MapPin size={12} /> Location
               </div>
-              <div className="font-medium text-[14px]">Kocaeli, Izmit / Turkey</div>
+              <div className="font-medium text-[14px]">{location}</div>
             </div>
           </div>
         </section>
@@ -797,17 +781,10 @@ function App() {
         {/* Tools I Create With — design-driven, no dev-stack labels */}
         <section id="stack" className="mb-40">
           <SectionTitle>Tools I Create With</SectionTitle>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <UseItem name="Design Systems" icon={Layers} />
-            <UseItem name="Interaction Design" icon={MousePointer2} />
-            <UseItem name="Visual Prototyping" icon={Palette} />
-            <UseItem name="Creative Coding" icon={Code} />
-            <UseItem name="AI-Assisted Design" icon={Box} />
-            <UseItem name="Framer" icon={Layout} />
-            <UseItem name="Figma" icon={PenTool} />
-            <UseItem name="Illustrator" icon={PenTool} />
-            <UseItem name="Photoshop" icon={Palette} />
-            <UseItem name="Affinity" icon={Palette} />
+          <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-fr gap-4">
+            {tools.map(t => (
+              <UseItem key={t.name} name={t.name} icon={t.icon} />
+            ))}
           </div>
         </section>
 
@@ -815,57 +792,17 @@ function App() {
         <section id="experience" className="mb-40">
           <SectionTitle>Experience</SectionTitle>
           <div className="space-y-2">
-            <ExperienceItem
-              role="Product Lead"
-              company="SOCI4L"
-              period="Feb 2026 — Present"
-              description="Building a wallet-native identity and profile system. Product architecture, UX, and on-chain integration."
-            />
-            <ExperienceItem
-              role="Creative Director"
-              company="Floyka"
-              period="Apr 2023 — Present"
-              description={<>Designing and developing digital products, tools, and brand systems across web and on-chain contexts. Leads <strong>Floyka Labs</strong>, an experimental design research initiative testing and sharing new interaction and visual concepts.</>}
-            />
-            <ExperienceItem
-              role="Team1 Member"
-              company="Avalanche"
-              period="Sep 2025 — Present"
-              description="Supporting builder adoption and product initiatives in Türkiye."
-            />
+            {experience.map(e => (
+              <ExperienceItem key={`${e.role}-${e.company}`} role={e.role} company={e.company} period={e.period} description={e.description} />
+            ))}
 
             {/* Earlier — always visible, same in light/dark (no collapse) */}
             <div className="pt-8 mt-2">
-              <div className="text-[11px] font-bold uppercase tracking-widest text-neutral-500 mb-1 pl-6 ml-2">Earlier — Community & Media</div>
+              <div className="text-[11px] font-bold uppercase tracking-widest text-neutral-500 mb-1 pl-6 ml-2">Earlier · Community & Media</div>
               <div className="space-y-2">
-                <ExperienceItem
-                  muted
-                  role="Community Manager"
-                  company="Buildchain"
-                  period="2021 — 2024"
-                  description="Engaged developer community and supported Web3 ecosystem growth."
-                />
-                <ExperienceItem
-                  muted
-                  role="Designer & Community Moderator"
-                  company="KimlikDAO"
-                  period="Dec 2023 — Nov 2024"
-                  description="Created digital assets and moderated community channels."
-                />
-                <ExperienceItem
-                  muted
-                  role="Content Creator"
-                  company="Web3LibTR"
-                  period="2022 — 2023"
-                  description="Produced educational content on blockchain topics."
-                />
-                <ExperienceItem
-                  muted
-                  role="Content Creator"
-                  company="Technoswap"
-                  period="2020 — 2022"
-                  description="Started Web3 content presence and grew early audience."
-                />
+                {earlierExperience.map(e => (
+                  <ExperienceItem key={`${e.role}-${e.company}`} muted role={e.role} company={e.company} period={e.period} description={e.description} />
+                ))}
               </div>
             </div>
           </div>
@@ -874,43 +811,16 @@ function App() {
         {/* Products — ana ürün → core tools → kits */}
         <section id="products" className="mb-40">
           <SectionTitle>Products</SectionTitle>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <ProductItemMinimal
-              title="SOCI4L"
-              type="Product"
-              link="https://soci4l.net"
-              description="Wallet-native identity & profile system"
-            />
-            <ProductItemMinimal
-              title="AsciiMotion"
-              type="Tool"
-              link="https://www.framer.com/marketplace/plugins/asciimotion/"
-              description="ASCII & motion generator for Framer"
-            />
-            <ProductItemMinimal
-              title="Avalanche Brand Assets"
-              type="Plugin"
-              link="https://www.framer.com/marketplace/plugins/avalanche-brand-assets/"
-              description="Official ecosystem design kit (Framer)"
-            />
-            <ProductItemMinimal
-              title="Avalanche Brand Assets"
-              type="Plugin"
-              link="https://www.figma.com/community/plugin/1575475392792712992/avalanche-brand-assets"
-              description="Official ecosystem design kit (Figma)"
-            />
-            <ProductItemMinimal
-              title="ColorSense AI"
-              type="Plugin"
-              link="https://www.figma.com/community/plugin/1502812839016494184/colorsense-ai"
-              description="AI-assisted color system plugin"
-            />
-            <ProductItemMinimal
-              title="ImageTools"
-              type="Tool"
-              link="https://www.framer.com/marketplace"
-              description="Framer-native image pipeline tool"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {products.map(p => (
+              <ProductItemMinimal key={p.title} title={p.title} type={p.type} link={p.link} description={p.description} />
+            ))}
+          </div>
+          <div className="mt-4 flex items-center justify-between flex-wrap gap-2">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400 dark:text-neutral-500">{marketplaceProfile.stat}</span>
+            <a href={marketplaceProfile.href} target="_blank" rel="noopener noreferrer" className="text-[12px] font-bold text-neutral-500 hover:text-black dark:hover:text-white transition-colors inline-flex items-center gap-1">
+              {marketplaceProfile.label} <ArrowUpRight size={12} />
+            </a>
           </div>
         </section>
 
@@ -918,44 +828,31 @@ function App() {
         <section id="work" className="mb-40">
           <SectionTitle>Selected Products</SectionTitle>
           <div className="space-y-4">
-            <WorkItem
-              title="SOCI4L"
-              year="Present"
-              description="Turning wallets into human-readable, expressive profiles. Product, UX architecture, and identity system design."
-              link="https://soci4l.net"
-              badges={["Identity", "On-chain UX", "Product"]}
-            />
-            <WorkItem
-              title="Floyka"
-              year="Present"
-              description={<>Floyka is a studio for building digital tools, plugins, and design-driven systems across web and on-chain contexts. It includes <strong>Floyka Labs</strong>, an experimental initiative exploring emerging design systems, interactions, and tooling.</>}
-              link="https://floyka.space"
-              badges={["Tools", "Systems", "Design-Tech", "Research"]}
-            />
+            {selectedWork.map(w => (
+              <WorkItem key={w.title} title={w.title} year={w.year} description={w.description} link={w.link} badges={w.badges} />
+            ))}
           </div>
           <div className="mt-6 pt-6 border-t border-neutral-100 dark:border-neutral-800">
-            <div className="text-[11px] font-bold uppercase tracking-widest text-neutral-400 dark:text-neutral-500 mb-3">Also</div>
+            <div className="text-[11px] font-bold uppercase tracking-widest text-neutral-400 dark:text-neutral-500 mb-3">Client Work · via Floyka</div>
             <div className="flex flex-wrap gap-3">
-              <a href="https://www.figma.com/community/plugin/1502812839016494184/colorsense-ai" target="_blank" rel="noopener noreferrer" className="text-[13px] text-neutral-500 hover:text-black dark:hover:text-white transition-colors">ColorSense AI</a>
-              <span className="text-neutral-300 dark:text-neutral-600">·</span>
-              <a href="https://www.framer.com/marketplace" target="_blank" rel="noopener noreferrer" className="text-[13px] text-neutral-500 hover:text-black dark:hover:text-white transition-colors">ImageTools</a>
-              <span className="text-neutral-300 dark:text-neutral-600">·</span>
-              <a href="https://www.framer.com/marketplace/plugins/asciimotion/" target="_blank" rel="noopener noreferrer" className="text-[13px] text-neutral-500 hover:text-black dark:hover:text-white transition-colors">AsciiMotion</a>
+              {clientWork.map((l, i) => (
+                <React.Fragment key={l.label}>
+                  {i > 0 && <span className="text-neutral-300 dark:text-neutral-600">·</span>}
+                  <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-[13px] text-neutral-500 hover:text-black dark:hover:text-white transition-colors">{l.label}</a>
+                </React.Fragment>
+              ))}
             </div>
           </div>
-        </section>
-
-        {/* Media & Speaking */}
-        <section id="media" className="mb-40">
-          <SectionTitle>Media & Speaking</SectionTitle>
-          <div className="space-y-2">
-            <MediaItem
-              title="Web3 Conversations"
-              platform="SPOTIFY"
-              type="Experimental Podcast"
-              link="https://open.spotify.com/show/6WnDymJ6li5h15GmaIZOPr"
-              icon={Mic}
-            />
+          <div className="mt-6 pt-6 border-t border-neutral-100 dark:border-neutral-800">
+            <div className="text-[11px] font-bold uppercase tracking-widest text-neutral-400 dark:text-neutral-500 mb-3">More Plugins</div>
+            <div className="flex flex-wrap gap-3">
+              {alsoLinks.map((l, i) => (
+                <React.Fragment key={l.label}>
+                  {i > 0 && <span className="text-neutral-300 dark:text-neutral-600">·</span>}
+                  <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-[13px] text-neutral-500 hover:text-black dark:hover:text-white transition-colors">{l.label}</a>
+                </React.Fragment>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -963,16 +860,9 @@ function App() {
         <section id="testimonials" className="print:hidden mb-40">
           <SectionTitle>References</SectionTitle>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <TestimonialItem
-              quote="Meriç brings a unique blend of aesthetic sensibility and technical depth that is rare in the Web3 space. A true craftsman."
-              author="Avalanche Team1"
-              role="Community Lead"
-            />
-            <TestimonialItem
-              quote="Floyka Studio's work on our design system was transformative. The attention to detail is unmatched."
-              author="Framer Partner"
-              role="Client"
-            />
+            {testimonials.map(t => (
+              <TestimonialItem key={t.author} quote={t.quote} author={t.author} role={t.role} />
+            ))}
           </div>
         </section>
 
@@ -1003,14 +893,14 @@ function App() {
           <div className="max-w-[800px] mx-auto px-6 flex justify-between items-center">
 
             <div className="flex flex-wrap gap-6 items-center">
-              <a href="https://x.com/0xBrokkr" className="hover:text-black dark:hover:text-white transition-colors flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-neutral-400">
+              <a href={contact.x} className="hover:text-black dark:hover:text-white transition-colors flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-neutral-400">
                 <XLogo size={12} />
               </a>
-              <a href="https://linkedin.com/in/brokkr" className="hover:text-black dark:hover:text-white transition-colors text-[11px] font-bold uppercase tracking-widest text-neutral-400">LinkedIn</a>
-              <a href="https://github.com/xBrokkr" className="hover:text-black dark:hover:text-white transition-colors text-[11px] font-bold uppercase tracking-widest text-neutral-400">GitHub</a>
-              <a href="mailto:merickalkan@icloud.com" className="hover:text-black dark:hover:text-white transition-colors text-[11px] font-bold uppercase tracking-widest text-neutral-400">Email</a>
+              <a href={contact.linkedin} className="hover:text-black dark:hover:text-white transition-colors text-[11px] font-bold uppercase tracking-widest text-neutral-400">LinkedIn</a>
+              <a href={contact.github} className="hover:text-black dark:hover:text-white transition-colors text-[11px] font-bold uppercase tracking-widest text-neutral-400">GitHub</a>
+              <a href={`mailto:${contact.email}`} className="hover:text-black dark:hover:text-white transition-colors text-[11px] font-bold uppercase tracking-widest text-neutral-400">Email</a>
               <a
-                href="/merickalkan_cv.pdf"
+                href={contact.cvFile}
                 download="merickalkan_cv.pdf"
                 className="print:hidden flex items-center gap-2 px-3 py-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors text-[11px] font-bold uppercase tracking-widest"
               >

@@ -38,10 +38,20 @@ body {
 }
 
 @media print {
+  /* Framer-motion giriş animasyonları print'te tamamlanmaz; inline opacity/transform'u ez */
+  main *,
+  main {
+    opacity: 1 !important;
+    transform: none !important;
+  }
   body {
     background: #fff !important;
     color: #000 !important;
     font-size: 9px !important;
+  }
+  /* Tek A4'e sığdır */
+  main {
+    zoom: 0.44;
   }
   .dark,
   .dark * {
