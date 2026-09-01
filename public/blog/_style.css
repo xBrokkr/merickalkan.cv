@@ -61,7 +61,7 @@ body {
 .toggle:hover { color: var(--fg); border-color: var(--faint); }
 
 /* Article */
-article { padding: 4rem 0 5rem; }
+article.wrap { padding: 5.5rem 1.5rem 5rem; }
 .eyebrow {
   font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
@@ -92,8 +92,14 @@ h3 {
 p { margin: 1.1rem 0; }
 p:first-child { margin-top: 0; }
 
-a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
-a:hover { border-bottom-color: var(--accent); }
+a { color: var(--accent); text-decoration: none; }
+/* underline content links only, never nav/footer chrome */
+article p a, article li a, blockquote a, .byline a {
+  border-bottom: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+}
+article p a:hover, article li a:hover, blockquote a:hover, .byline a:hover {
+  border-bottom-color: currentColor;
+}
 
 strong { font-weight: 650; }
 em { font-style: italic; }
@@ -168,7 +174,7 @@ footer a { color: var(--muted); }
 
 @media (max-width: 640px) {
   body { font-size: 16px; }
-  article { padding: 2.5rem 0 3.5rem; }
+  article.wrap { padding: 3.25rem 1.5rem 3.5rem; }
   .topnav { gap: 0.9rem; }
 }
 
@@ -180,7 +186,7 @@ figcaption {
 }
 figcaption b { color: var(--muted); font-weight: 600; }
 figcaption .src { display: block; margin-top: 0.3rem; }
-figcaption a { color: var(--muted); border-bottom-color: color-mix(in srgb, var(--muted) 30%, transparent); }
+figcaption a { color: var(--muted); border-bottom: 1px solid color-mix(in srgb, var(--muted) 30%, transparent); }
 
 /* Inline bar chart */
 .chart { border: 1px solid var(--rule); border-radius: 10px; padding: 1.4rem 1.5rem; background: var(--panel); }
