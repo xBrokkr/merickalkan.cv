@@ -59,7 +59,7 @@
   <div class="byline">
     <span>1 September 2026</span>
     <span>·</span>
-    <span>8 min read</span>
+    <span>12 min read</span>
     <span>·</span>
     <span>by <a href="https://x.com/0xBrokkr">Meriç Kalkan</a></span>
   </div>
@@ -83,22 +83,11 @@
 
   <p>Seven categories, captured 20 August 2026, summing to 100 percent:</p>
 
-  <div class="tablewrap">
-    <table>
-      <thead>
-        <tr><th>Topic</th><th class="num">Share</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Validator incentives and economics</td><td class="num">34%</td></tr>
-        <tr><td>Cryptoasset valuation and pricing</td><td class="num">32%</td></tr>
-        <tr><td>Ecosystem, L1 and RWA value accrual</td><td class="num">10%</td></tr>
-        <tr><td>Mechanism design and formal verification</td><td class="num">9%</td></tr>
-        <tr><td>Emission policy and security budget</td><td class="num">8%</td></tr>
-        <tr><td>Market microstructure and price formation</td><td class="num">5%</td></tr>
-        <tr><td>Security-economics tradeoffs</td><td class="num">2%</td></tr>
-      </tbody>
-    </table>
-  </div>
+  <figure>
+  <div class="chart"><div class="cr"><div class="cl">Validator incentives and economics</div><div class="ct"><div class="cb hi" style="width:100.0%"></div></div><div class="cv">34%</div></div><div class="cr"><div class="cl">Cryptoasset valuation and pricing</div><div class="ct"><div class="cb hi" style="width:94.1%"></div></div><div class="cv">32%</div></div><div class="cr"><div class="cl">Ecosystem, L1 and RWA value accrual</div><div class="ct"><div class="cb" style="width:29.4%"></div></div><div class="cv">10%</div></div><div class="cr"><div class="cl">Mechanism design and formal verification</div><div class="ct"><div class="cb" style="width:26.5%"></div></div><div class="cv">9%</div></div><div class="cr"><div class="cl">Emission policy and security budget</div><div class="ct"><div class="cb" style="width:23.5%"></div></div><div class="cv">8%</div></div><div class="cr"><div class="cl">Market microstructure and price formation</div><div class="ct"><div class="cb" style="width:14.7%"></div></div><div class="cv">5%</div></div><div class="cr"><div class="cl">Security-economics tradeoffs</div><div class="ct"><div class="cb" style="width:5.9%"></div></div><div class="cv">2%</div></div></div>
+  <figcaption><b>Figure 1. What the submissions were about.</b> Seven categories as published by the Avalanche Foundation, summing to 100 percent. The two highlighted rows are the 34 and 32 that produce the "two thirds" figure. Redrawn from the Foundation's chart so the values are readable in both themes; the numbers are theirs, unchanged.
+  <span class="src">Source: Avalanche Foundation, <a href="https://x.com/AvalancheFDN/status/2094451007879364721">Inside the Call for Research Proposals</a>, X, 31 August 2026. Data captured 20 August 2026.</span></figcaption>
+</figure>
 
   <p>The 34 and 32 at the top are where the two thirds figure comes from. The problem is the other five rows.</p>
 
@@ -138,22 +127,32 @@
     </table>
   </div>
 
+  <figure>
+  <img src="/blog/assets/recluster.png" alt="The Foundation's seven categories regrouped into three clusters: cost of security 44 percent, value of the asset 47 percent, method 9 percent." />
+  <figcaption><b>Figure 2. The same seven categories, regrouped.</b> The cost-of-security and value-of-the-asset clusters are the two sides of one equation; only the method cluster is separate. <b>The regrouping is my own analytical interpretation and is not a conclusion the Foundation published.</b> The underlying percentages are unchanged from Figure 1, so the sums can be checked directly.
+  <span class="src">Graphic by me. Underlying data: Avalanche Foundation, <a href="https://x.com/AvalancheFDN/status/2094451007879364721">Inside the Call for Research Proposals</a>, X, 31 August 2026.</span></figcaption>
+</figure>
+
   <p>So it is not 66 percent on two questions. It is roughly 91 percent on one equation, and 9 percent on how to prove things about it.</p>
 
   <h2>The shared variable</h2>
 
-  <p>The reclustering above is an argument. The word clouds are evidence.</p>
+  <p>The reclustering above is an argument. The evidence for it is in the Foundation's own call text, which puts the same variables on both sides of its own dividing line.</p>
 
-  <p>The Foundation published a separate word cloud for each area, built from the research questions in submissions scoring 60 or above. One thing to be clear about: this sorting is the Foundation's own, done after applications closed. Submissions were assigned to the two areas the Foundation had defined in April, and a cloud was generated per bucket. So the areas are not clusters that emerged from the data; they are bins, and the clouds describe what is in each bin. <strong>Staking ratio appears in both of them.</strong> So does the emissions pair: <code>EMISSION SCHEDULES</code> in Area 1, <code>REWARD MECHANISMS</code> in Area 2. Those are the same policy lever, described from opposite ends.</p>
+  <p>Area 1 asks about "the role of monetary policy and token emission schedules in determining asset prices and expected returns". Area 2 asks about "optimal staking ratios" and "non-inflation-based reward mechanisms". <strong>Emissions and the staking ratio are named under both areas.</strong> Not similar topics under each: the same two levers, described once from the holder's side and once from the validator's.</p>
 
-  <p>That is the tell. Two areas that were genuinely separable would not be sharing their central variable.</p>
+  <p>That is the tell, and it comes from published text rather than from any reading of a graphic. Two areas that were genuinely separable would not be sharing their central variables in the document that defines them.</p>
+
+  <p>The word clouds are consistent with this, for what that is worth: staking ratio appears in both, and the emissions pair shows up as <code>EMISSION SCHEDULES</code> in Area 1 and <code>REWARD MECHANISMS</code> in Area 2. I treat that as corroboration rather than evidence, for reasons set out below.</p>
+
+  <p>One thing to be clear about before going further: the sorting into areas is the Foundation's own, done after applications closed. Submissions were assigned to the two areas defined back in April, and a cloud was generated per bucket. The areas are not clusters that emerged from the data. They are bins, and the clouds describe what is in each bin.</p>
 
   <div class="callout">
     <div class="label">What these clouds can and cannot show</div>
     <p>A fair objection: a word cloud is a designed graphic, so why treat it as data at all. Three things say the vocabulary is machine-extracted rather than art directed.</p>
     <p>The clouds are full of bigrams cut across phrase boundaries: <code>SCHEDULES FEE</code>, <code>MECHANISMS SUSTAIN</code>, <code>PARAMETERS EMISSION</code>, <code>CONDITIONS AVALANCHE</code>, <code>IMPLIED OPPORTUNITY</code>, <code>PREDICT VALIDATOR</code>. Nobody letters "SCHEDULES FEE" onto a graphic on purpose. Area 1 carries the same pair in both directions, <code>NATIVE POS</code> and <code>POS NATIVE</code>, which is what naive bigram counting does. And Area 2 shows unlemmatised duplicates sitting next to each other, <code>OPPORTUNITY COST</code> with <code>OPPORTUNITY COSTS</code>, <code>REQUIRED RETURN</code> with <code>REQUIRED RETURNS</code>. A designer would have merged those. A script would not. The header also carries a filter predicate, <code>SCORE &gt;= 60</code>.</p>
     <p>What that supports is the <em>vocabulary</em>: these terms really do come out of the submission text. What it does not support is precise weighting. Cloud layout engines adjust type size to fill space, and the red and grey split may be an editorial choice rather than a threshold. So every size judgement below is my reading of the graphic, not a measurement, and I have kept the argument off it.</p>
-    <p>The 44 / 47 / 9 split does not rest on the clouds at all. It comes from the bar chart's own labelled percentages.</p>
+    <p>None of the load-bearing claims here rest on the clouds. The 44 / 47 / 9 split comes from the bar chart's own labelled percentages, and the shared-variable argument comes from the call text. The clouds are illustration.</p>
   </div>
 
   <div class="tablewrap">
