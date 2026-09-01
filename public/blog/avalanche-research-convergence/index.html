@@ -108,9 +108,9 @@
 
   <p>On the other side, ecosystem and L1 and RWA value accrual is asking where value shows up, and market microstructure and price formation is asking how it gets priced. Both are components of a valuation model, not alternatives to one.</p>
 
-  <p>Only one row is methodologically distinct. Mechanism design and formal verification is about proving properties of a system, not estimating a value in it.</p>
+  <p>By that argument only one row is methodologically distinct. Mechanism design and formal verification is about proving properties of a system, not estimating a value in it.</p>
 
-  <p>Recluster on that basis:</p>
+  <p>Recluster on that basis. The grouping below is mine, not the Foundation's, and the point of showing the arithmetic is so you can disagree with the grouping and still check the sums:</p>
 
   <div class="tablewrap">
     <table>
@@ -164,17 +164,18 @@
       <tbody>
         <tr><td><strong>Emissions</strong></td><td>Dilution. A cost borne by holders.</td><td>Reward. The revenue that pays for security.</td></tr>
         <tr><td><strong>Staking ratio</strong></td><td>Float removed from the market.</td><td>The quantity of security purchased.</td></tr>
-        <tr><td><strong>Fee burn</strong></td><td>Value accrual to holders.</td><td>Revenue not paid to validators.</td></tr>
+        <tr><td><strong>Fee burn</strong></td><td>Supply removed, so value accrues to holders.</td><td>Nothing. Fees are burned, so they are never validator income in the first place.</td></tr>
         <tr><td><strong>Opportunity cost of capital</strong></td><td>The discount rate in the model.</td><td>The validator participation constraint.</td></tr>
       </tbody>
     </table>
   </div>
 
-  <p>Every row is the same quantity with the sign flipped. Set the staking ratio too low and the security budget thins. Set it too high and the opportunity cost of locked capital has to be paid in issuance, which dilutes the very holders the token is meant to accrue value to. There is no setting where you can answer one area without having implicitly answered the other.</p>
+  <p>Read that way, each row is the same quantity carrying opposite signs for the two audiences. Set the staking ratio too low and the security budget thins. Set it too high and the opportunity cost of locked capital has to be paid in issuance, which dilutes the very holders the token is meant to accrue value to. I find it hard to construct a case where you answer one area properly without having implicitly answered the other, which is what the reclustering is trying to capture.</p>
 
   <div class="callout">
-    <div class="label">The actual result</div>
-    <p>160 researchers did not converge on two open questions. They converged on the two <em>unknowns of a single equation</em>, and roughly one in eleven of them went and worked on the proof technique instead.</p>
+    <div class="label">My reading</div>
+    <p>The chart counts proposals, not researchers: over 160 submissions, not 160 people. And on my reading they did not converge on two open questions. They converged on the two <em>unknowns of a single equation</em>, with roughly one submission in eleven working on the proof technique instead.</p>
+    <p>To be explicit, since this is the load-bearing claim of the piece: the 91 percent grouping is my analytical interpretation of the Foundation's categories. It is not a conclusion the Foundation published.</p>
   </div>
 
   <h2>On independence</h2>
@@ -226,11 +227,11 @@
 
   <p>There is a reason validator economics is the largest bucket in 2026 specifically, and it is visible in the Area 2 cloud in terms like <code>ACP SHIFT</code>, <code>AVAX BOND</code>, <code>CONTINUOUS FEE</code> and <code>NON-INFLATIONARY VALIDATOR</code>.</p>
 
-  <p>The Etna upgrade, which activated ACP-77 in December 2024, removed the 2,000 AVAX bond <em>for L1 validators specifically</em>. They now pay a continuous fee instead, base rate near 1.33 AVAX per validator per month and adjustable by governance, and they are no longer required to sync and validate the Primary Network.</p>
+  <p>The Etna upgrade, which activated ACP-77 in December 2024, removed the 2,000 AVAX bond <em>for L1 validators specifically</em>. They now pay a continuous fee instead, base rate near 1.33 AVAX per validator per month, and they are no longer required to sync and validate the Primary Network. The ACP does not put that rate under a governance vote: it says a future ACP can adjust the parameters, which means another protocol upgrade rather than an on-chain decision.</p>
 
   <p>This distinction matters and is easy to blur. Primary Network validators were not changed: they still stake a 2,000 AVAX minimum and still earn staking rewards. What Etna did was create a second class of validator that sits outside the emissions loop entirely, paying a cost to operate rather than drawing issuance for it. Two validator economies now run side by side under one token, which is precisely the kind of thing that generates research questions.</p>
 
-  <p>Since then the direction has continued. ACP-285 reduces the MinConsumptionRate from 10 percent to 7.5 percent, leaving the maximum at 12 percent, on the argument that the floor functions as untargeted issuance inside the reward formula. It shipped as part of the Helicon bundle, which activated on the Fuji testnet on 28 July 2026 and phases the rate down over roughly 90 days; mainnet activation had not been announced at the time of writing. Modelling puts the effect at roughly 0.5 to 1 percentage point off annual inflation, pulling the minimum-duration annualised reward rate from about 5.4 percent toward 4 percent and widening the premium for staking longer.</p>
+  <p>Since then the direction has continued. ACP-285 would reduce the MinConsumptionRate governing Primary Network staking rewards from 10 percent to 7.5 percent, on the argument that the floor functions as untargeted issuance inside the reward formula, ramping linearly over 90 days rather than stepping. Its formal status is still <em>Proposed</em>. It is bundled into Helicon, which activated on the Fuji testnet on 28 July 2026, and mainnet activation had not been announced at the time of writing. Modelling puts the effect at roughly 0.5 to 1 percentage point off annual inflation, pulling the minimum-duration annualised reward rate from about 5.4 percent toward 4 percent and widening the premium for staking longer.</p>
 
   <p>The surrounding numbers are what make this urgent rather than theoretical. Roughly 43 percent of AVAX supply is staked at a headline rate near 6.7 percent, and the security budget is funded entirely by issuance against a fixed 720 million supply cap.</p>
 
@@ -240,7 +241,7 @@
     <p>So fee growth is not validator income. Burning offsets issuance in supply terms and accrues to holders, but a validator sees none of it, however busy the chain gets. Retiring issuance therefore cannot be paid for out of fees under the current design. It needs either a new mechanism that routes value to validators, or validators accepting a lower required return. Foundation economists have themselves floated a zero-inflation validator model along these lines. Nobody has published a credible number for what either path costs, which is exactly the hole this research programme is pointed at.</p>
   </div>
 
-  <p>BENQI put the same point more compactly under the Foundation's thread, noting that "non-inflation-based reward mechanisms" is a polite way of saying the current emission schedule has a clock on it. That is the correct read, and it is why the cost-of-security side is 44 percent of the funnel once you stop splitting it across three rows.</p>
+  <p>BENQI put the same point more compactly in a reply under the Foundation's thread on 31 August 2026, noting that "non-inflation-based reward mechanisms" is a polite way of saying the current emission schedule has a clock on it. Worth noting that the phrase they are quoting is the Foundation's own, lifted from the call text, which is what makes the observation land. I have not been able to link that reply directly, so it is cited here as what it is: a reply visible in the thread, quoted as read. The reading itself is right, and it is why the cost-of-security side is 44 percent of the funnel once you stop splitting it across three rows.</p>
 
   <h2>A note on the funnel</h2>
 
@@ -265,13 +266,14 @@
   <div class="sources">
     <h2>Sources</h2>
     <ol>
-      <li>Avalanche Foundation, <a href="https://x.com/AvalancheFDN/status/2094451007879364721">Inside the Call for Research Proposals</a>, X, 31 August 2026. Topic distribution chart and per-area word clouds.</li>
+      <li>Avalanche Foundation, <a href="https://x.com/AvalancheFDN/status/2094451007879364721">Inside the Call for Research Proposals</a>, X, 31 August 2026. The opening post carries the topic distribution chart. The two word clouds this piece relies on are published as images in the Area 1 and Area 2 posts further down the same thread, each headed "RESEARCH QUESTIONS WORD CLOUD" with a <code>SCORE &gt;= 60</code> filter. All term readings here are taken from those two images.</li>
+      <li>BENQI, reply in the thread above, 31 August 2026. Quoted as read; no direct permalink captured.</li>
       <li>Eric Lu, <a href="https://x.com/eric_lu_sc/status/2094800565242929395">commentary on the submission breakdown</a>, X, 31 August 2026.</li>
       <li>Avalanche Foundation, <a href="https://www.avax.network/about/blog/research-grants-avalanche-network-economics">The Avalanche Foundation Opens Up to $50,000 in Research Grants on Avalanche Network Economics</a>, April 2026. Source for the two named areas and their sub-questions.</li>
       <li>Avalanche Foundation, <a href="https://www.avax.network/about/blog/avalanche-foundation-introduces-research-program-selection-committee">Introducing the Call For Research Program Selection Committee</a>.</li>
-      <li><a href="https://build.avax.network/docs/acps/77-reinventing-subnets">ACP-77: Reinventing Subnets</a>, Avalanche Builder Hub. Continuous fee model and removal of the 2,000 AVAX bond.</li>
+      <li><a href="https://build.avax.network/docs/acps/77-reinventing-subnets">ACP-77: Reinventing Subnets</a>, Avalanche Builder Hub. Status "Activated". Continuous fee model, removal of the 2,000 AVAX bond for L1 validators, and the line that a future ACP can adjust the fee parameters.</li>
       <li><a href="https://build.avax.network/blog/etna-changes">What to Expect After the Etna Upgrade</a>, Avalanche Builder Hub.</li>
-      <li><a href="https://build.avax.network/docs/acps/285-reduce-minimum-consumption-rate">ACP-285: Reduce Minimum Consumption Rate</a>, Avalanche Builder Hub.</li>
+      <li><a href="https://build.avax.network/docs/acps/285-reduce-minimum-consumption-rate">ACP-285: Reduce Minimum Consumption Rate</a>, Avalanche Builder Hub. Status field read as "Proposed" on 1 September 2026.</li>
       <li><a href="https://www.avax.network/about/blog/from-static-constants-to-dynamic-variables-what-three-acps-say-about-where-avalanches-economics-are-headed">From Static Constants to Dynamic Variables</a>, avax.network, on the direction of the three economics ACPs.</li>
       <li><a href="https://build.avax.network/docs/rpcs/other/guides/txn-fees">Transaction Fees</a>, Avalanche Builder Hub. Both base fee and priority fee are burned.</li>
       <li><a href="https://www.stakingrewards.com/asset/avalanche">Avalanche staking metrics</a>, stakingrewards.com. Staking ratio and reward rate, read 1 September 2026.</li>
