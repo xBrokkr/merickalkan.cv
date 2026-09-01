@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/png" href="/logo.png" />
+<title>Blog · Meriç Kalkan</title>
+<meta name="description" content="Notes on network economics, product and design by Meriç Kalkan." />
+<meta name="author" content="Meriç Kalkan" />
+<link rel="canonical" href="https://merickalkan.cv/blog/" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://merickalkan.cv/blog/" />
+<meta property="og:title" content="Blog · Meriç Kalkan" />
+<meta property="og:description" content="Notes on network economics, product and design." />
+<meta property="og:image" content="https://merickalkan.cv/logo.png" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@0xBrokkr" />
+<meta name="twitter:creator" content="@0xBrokkr" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/blog/_style.css" />
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/logo.png" alt="MK" />
+      <span>Meriç Kalkan</span>
+    </a>
+    <nav class="topnav">
+      <a href="/blog/">Blog</a>
+      <a href="/#work">Work</a>
+      <a href="/#about">About</a>
+      <button class="toggle" id="themeToggle" aria-label="Toggle theme">◐</button>
+    </nav>
+  </div>
+</div>
+
+<article class="wrap">
+  <div class="eyebrow">Writing</div>
+  <h1>Blog</h1>
+  <p class="standfirst">Notes on network economics, product and design. Long-form working out for things that do not fit in a thread.</p>
+
+  <ul class="postlist">
+    <li>
+      <a href="/blog/avalanche-research-convergence/">
+        <div class="pd">1 SEPTEMBER 2026 · NETWORK ECONOMICS</div>
+        <div class="pt">One Equation, Not Two Questions</div>
+        <div class="px">The Avalanche Foundation published the topic breakdown of its Call for Research Proposals and read it as two questions converging. Recluster the Foundation's own categories and it is closer to one equation, with the staking ratio as the joint unknown.</div>
+      </a>
+    </li>
+  </ul>
+</article>
+
+<footer>
+  <div class="wrap">
+    <a href="/">merickalkan.cv</a> &nbsp;·&nbsp; <a href="https://x.com/0xBrokkr">@0xBrokkr</a>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var isDark = document.documentElement.classList.toggle('dark');
+      try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) {}
+    });
+  })();
+</script>
+
+</body>
+</html>

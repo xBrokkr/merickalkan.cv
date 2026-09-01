@@ -230,7 +230,7 @@ const DynamicIsland = () => {
         onMouseEnter={() => setIsExpanded(true)}
         onMouseLeave={() => setIsExpanded(false)}
         animate={{
-          width: isExpanded ? 380 : 120,
+          width: isExpanded ? 440 : 120,
           height: isExpanded ? 64 : 36,
           backgroundColor: "rgba(0,0,0,0.90)",
           backdropFilter: "blur(20px)",
@@ -280,6 +280,7 @@ const DynamicIsland = () => {
             <a href="#work" className="hover:text-white transition-colors">Work</a>
             <a href="#experience" className="hover:text-white transition-colors">Exp.</a>
             <a href="#about" className="hover:text-white transition-colors">About</a>
+            <a href="/blog/" className="hover:text-white transition-colors">Blog</a>
           </div>
         </motion.div>
       </motion.div>

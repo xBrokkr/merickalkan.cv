@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/png" href="/logo.png" />
+<title>One Equation, Not Two Questions · Meriç Kalkan</title>
+<meta name="description" content="160 proposals reached the Avalanche Foundation's Call for Research. Reclustering the Foundation's own categories shows 91 percent of them solving a single equation, with the staking ratio as the joint unknown." />
+<meta name="author" content="Meriç Kalkan" />
+<link rel="canonical" href="https://merickalkan.cv/blog/avalanche-research-convergence/" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://merickalkan.cv/blog/avalanche-research-convergence/" />
+<meta property="og:title" content="One Equation, Not Two Questions" />
+<meta property="og:description" content="What 160 research proposals to the Avalanche Foundation actually converged on, and why the residual is the interesting part." />
+<meta property="og:image" content="https://merickalkan.cv/logo.png" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@0xBrokkr" />
+<meta name="twitter:creator" content="@0xBrokkr" />
+<meta name="twitter:title" content="One Equation, Not Two Questions" />
+<meta name="twitter:description" content="What 160 research proposals to the Avalanche Foundation actually converged on, and why the residual is the interesting part." />
+<meta name="twitter:image" content="https://merickalkan.cv/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/blog/_style.css" />
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/logo.png" alt="MK" />
+      <span>Meriç Kalkan</span>
+    </a>
+    <nav class="topnav">
+      <a href="/blog/">Blog</a>
+      <a href="/#work">Work</a>
+      <a href="/#about">About</a>
+      <button class="toggle" id="themeToggle" aria-label="Toggle theme">◐</button>
+    </nav>
+  </div>
+</div>
+
+<article class="wrap">
+
+  <div class="eyebrow">Network economics</div>
+  <h1>One Equation, Not Two Questions</h1>
+  <p class="standfirst">The Avalanche Foundation published the topic breakdown of its Call for Research Proposals and read it as two questions converging. Recluster the Foundation's own categories and it is closer to one equation, with the staking ratio as the joint unknown.</p>
+  <div class="byline">
+    <span>1 September 2026</span>
+    <span>·</span>
+    <span>8 min read</span>
+    <span>·</span>
+    <span>by <a href="https://x.com/0xBrokkr">Meriç Kalkan</a></span>
+  </div>
+
+  <h2>The setup</h2>
+
+  <p>On 31 August 2026 the Avalanche Foundation published a breakdown of its Call for Research Proposals. Over 160 proposals were submitted, roughly 95 progressed to the selection committee, and the Foundation released a chart of what the submissions were about along with per-area word clouds of the research questions themselves.</p>
+
+  <p>Eric Lu, Lead Economist at the Foundation, added a reading of that chart:</p>
+
+  <blockquote>
+    <p>Two thirds of submissions are converging on the same two questions independently. That's not because we told researchers what to think, it's because those are genuinely the two places the field doesn't have settled answers yet.</p>
+    <cite>Eric Lu, 31 August 2026</cite>
+  </blockquote>
+
+  <p>Two claims sit inside that: first, that these are <em>two</em> questions, and second, that the convergence on them was <em>independent</em>. Both are testable against material the Foundation has already published. This post does that, using the released chart, the released word clouds, and the text of the original April 2026 call.</p>
+
+  <p>The conclusion is not that the reading is wrong. It is that the published data supports something sharper.</p>
+
+  <h2>The published distribution</h2>
+
+  <p>Seven categories, captured 20 August 2026, summing to 100 percent:</p>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Topic</th><th class="num">Share</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Validator incentives and economics</td><td class="num">34%</td></tr>
+        <tr><td>Cryptoasset valuation and pricing</td><td class="num">32%</td></tr>
+        <tr><td>Ecosystem, L1 and RWA value accrual</td><td class="num">10%</td></tr>
+        <tr><td>Mechanism design and formal verification</td><td class="num">9%</td></tr>
+        <tr><td>Emission policy and security budget</td><td class="num">8%</td></tr>
+        <tr><td>Market microstructure and price formation</td><td class="num">5%</td></tr>
+        <tr><td>Security-economics tradeoffs</td><td class="num">2%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>The 34 and 32 at the top are where the two thirds figure comes from. The problem is the other five rows.</p>
+
+  <h2>The categories are not orthogonal</h2>
+
+  <p>Emission policy and security budget is not a separate question from validator economics. It is the same question asked from the treasury side: what does the network pay for security. Security-economics tradeoffs is the same question asked from the margin: what does the network get for what it pays.</p>
+
+  <p>On the other side, ecosystem and L1 and RWA value accrual is asking where value shows up, and market microstructure and price formation is asking how it gets priced. Both are components of a valuation model, not alternatives to one.</p>
+
+  <p>Only one row is methodologically distinct. Mechanism design and formal verification is about proving properties of a system, not estimating a value in it.</p>
+
+  <p>Recluster on that basis:</p>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Cluster</th><th>Components</th><th class="num">Share</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Cost of security</strong></td>
+          <td>Validator incentives 34, emission policy and security budget 8, security-economics tradeoffs 2</td>
+          <td class="num hi">44%</td>
+        </tr>
+        <tr>
+          <td><strong>Value of the asset</strong></td>
+          <td>Valuation and pricing 32, ecosystem and L1 and RWA value accrual 10, market microstructure 5</td>
+          <td class="num hi">47%</td>
+        </tr>
+        <tr>
+          <td><strong>Method</strong></td>
+          <td>Mechanism design and formal verification 9</td>
+          <td class="num">9%</td>
+        </tr>
+        <tr class="total"><td colspan="2">Two sides of one accounting identity</td><td class="num">91%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>So it is not 66 percent on two questions. It is roughly 91 percent on one equation, and 9 percent on how to prove things about it.</p>
+
+  <h2>The shared variable</h2>
+
+  <p>The reclustering above is an argument. The word clouds are evidence.</p>
+
+  <p>The Foundation published a separate word cloud for each area, built from the research questions in submissions scoring 60 or above. <strong>Staking ratio appears as a top-weighted term in both of them.</strong> So does the emissions pair: <code>EMISSION SCHEDULES</code> is one of the largest terms in the Area 1 cloud, while <code>NON-INFLATIONARY REWARD</code> and <code>REWARD MECHANISMS</code> dominate Area 2. Those are the same policy lever, described from opposite ends.</p>
+
+  <p>That is the tell. If two research areas were genuinely distinct, their highest-weighted terms would not be the same variable.</p>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Variable</th><th>Role in Area 1 (valuation)</th><th>Role in Area 2 (validator economics)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Emissions</strong></td><td>Dilution. A cost borne by holders.</td><td>Reward. The revenue that pays for security.</td></tr>
+        <tr><td><strong>Staking ratio</strong></td><td>Float removed from the market.</td><td>The quantity of security purchased.</td></tr>
+        <tr><td><strong>Fee burn</strong></td><td>Value accrual to holders.</td><td>Revenue not paid to validators.</td></tr>
+        <tr><td><strong>Opportunity cost of capital</strong></td><td>The discount rate in the model.</td><td>The validator participation constraint.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Every row is the same quantity with the sign flipped. Set the staking ratio too low and the security budget thins. Set it too high and the opportunity cost of locked capital has to be paid in issuance, which dilutes the very holders the token is meant to accrue value to. There is no setting where you can answer one area without having implicitly answered the other.</p>
+
+  <div class="callout">
+    <div class="label">The actual result</div>
+    <p>160 researchers did not converge on two open questions. They converged on the two <em>unknowns of a single equation</em>, and roughly one in eleven of them went and worked on the proof technique instead.</p>
+  </div>
+
+  <h2>On independence</h2>
+
+  <p>The second claim is that this convergence happened independently. Here the original call text matters, because the Foundation wrote the two areas before anyone submitted anything.</p>
+
+  <p>The Call for Research Proposals, published on avax.network in April 2026, scoped exactly two areas: Area 1, Cryptoasset Pricing and Valuation, and Area 2, Validator Economics and Network Security. It then listed sub-questions under each. Those sub-questions map onto the largest terms in the published clouds almost phrase for phrase:</p>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Sub-question named in the April 2026 call</th><th>Largest terms in the published word clouds</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Optimal staking ratios</td><td><code>STAKING RATIO</code>, top-weighted in <em>both</em> areas</td></tr>
+        <tr><td>The economics of opportunity cost and validator returns</td><td><code>OPPORTUNITY COST</code>, <code>REQUIRED RETURN</code>, <code>EXPECTED RETURNS</code></td></tr>
+        <tr><td>Non-inflation-based reward mechanisms</td><td><code>REWARD MECHANISMS</code>, <code>NON-INFLATIONARY REWARD</code>, <code>MECHANISMS SUSTAIN</code></td></tr>
+        <tr><td>Monetary policy and token emission schedules' impact on prices</td><td><code>EMISSION SCHEDULES</code>, <code>MONETARY POLICY</code>, <code>TOKEN PRICES</code></td></tr>
+        <tr><td>Network adoption and usage in relation to fundamental value</td><td><code>NETWORK ADOPTION</code>, <code>FUNDAMENTAL VALUE</code></td></tr>
+        <tr><td>Novel value accrual approaches beyond network usage</td><td><code>VALUE ACCRUAL</code></td></tr>
+        <tr><td>Validator set health and decentralisation metrics</td><td><code>VALIDATOR-SET HEALTH</code>, <code>SECURITY DECENTRALIZATION</code>, <code>HEALTH METRICS</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Seven for seven. The word clouds are, to a good approximation, the call text weighted by how many people repeated it back.</p>
+
+  <p>So the 66 percent is not measuring independent convergence. It is measuring <strong>response fidelity</strong>: how accurately 160 researchers aimed at a target that had already been drawn for them.</p>
+
+  <p>I want to be careful about what that does and does not imply, because the obvious reading is the uncharitable one and the obvious reading is wrong.</p>
+
+  <p>Most open research calls come back scattered. Submissions arrive that answer a question adjacent to the one asked, or restate the call without operationalising it, and the programme spends its first year negotiating scope. This one came back tightly grouped on named sub-questions. That is a real and non-trivial result about the <em>call</em>: it was specific enough to be aimed at, which is harder to write than it sounds and is the main reason the funnel looks the way it does.</p>
+
+  <p>It does relocate the interesting signal, though. If 66 percent landed on the two named areas, that portion carries little information, because it is what the instrument was built to produce. The independent signal is in the residual: the third of submissions that did not land in the headline buckets, and in particular the 9 percent doing mechanism design and formal verification, which was not a named area at all. Nobody asked for that at that weight. That is researchers telling the Foundation something rather than the reverse.</p>
+
+  <h2>Why the timing is not academic</h2>
+
+  <p>There is a reason validator economics is the largest bucket in 2026 specifically, and it is visible in the Area 2 cloud in terms like <code>ACP SHIFT</code>, <code>AVAX BOND</code>, <code>CONTINUOUS FEE</code> and <code>NON-INFLATIONARY VALIDATOR</code>.</p>
+
+  <p>The Etna upgrade, which activated ACP-77 in December 2024, removed the 2,000 AVAX bond for L1 validators. They now pay a continuous fee instead, with a base rate near 1.33 AVAX per validator per month, adjustable by governance, and they are no longer required to sync and validate the Primary Network. That change structurally decoupled a class of validator revenue from stake-weighted emissions for the first time.</p>
+
+  <p>Since then the direction has continued. ACP-285 proposes reducing the MinConsumptionRate from its current 10 percent, on the argument that the floor functions as untargeted issuance inside the reward formula. Simulations put the effect at roughly 0.5 to 1 percentage point off annual inflation.</p>
+
+  <p>The surrounding numbers are what make this urgent rather than theoretical. Something in the range of 55 to 58 percent of circulating AVAX is staked, staking yields have run around 7 to 8 percent annualised, and the security budget is funded entirely by issuance against a fixed 720 million supply cap. Every unit of issuance retired has to be replaced by fee revenue or by a lower required return, and nobody has published a credible estimate of what either would need to be.</p>
+
+  <p>BENQI put the same point more compactly under the Foundation's thread, noting that "non-inflation-based reward mechanisms" is a polite way of saying the current emission schedule has a clock on it. That is the correct read, and it is why Area 2 is 44 percent of the funnel once you stop splitting it into three rows.</p>
+
+  <h2>A note on the funnel</h2>
+
+  <p>160 submissions to roughly 95 progressing is about a 59 percent advance rate. That is high for an open academic call, where competitive programmes commonly sit in the 15 to 25 percent range.</p>
+
+  <p>Read alongside the programme's structure, rolling submissions, grants of up to 50,000 USD, and staged disbursement of 30 percent on award, 30 percent at a six-month review and 40 percent on a publishable final paper, that rate looks like a scope-and-quality floor rather than a tournament. The Foundation appears to be trying to seed a literature rather than pick a single winner.</p>
+
+  <p>The committee composition points the same way. Alongside Emin Gün Sirer and Eric Lu from Ava Labs and the Foundation, it includes Campbell Harvey of Duke, a former President of the American Finance Association, Fahad Saleh of the University of Florida and Columbia's Center for Digital Finance and Technologies, and Agostino Capponi, who directs that centre. That is a committee assembled to referee for publication, not to run a hackathon.</p>
+
+  <h2>What the residual should produce</h2>
+
+  <p>If the 66 percent is the instrument reading itself, the value of this programme depends on what the rest of it produces. Three things I would want to read, and have not:</p>
+
+  <ul>
+    <li>A joint model where the staking ratio is <em>endogenous</em> rather than a parameter, so that valuation and security clear at the same time instead of being solved in sequence.</li>
+    <li>An empirical estimate of validator exit elasticity with respect to yield, using the post-Etna L1 fee cohort as a natural experiment. The bond removal is a clean structural break and it is now nearly two years old, which is enough data.</li>
+    <li>A number, in absolute terms, for what fee burn has to reach before issuance is replaceable at the current staking ratio. Everything else in the security budget debate is downstream of that figure and it is still being argued qualitatively.</li>
+  </ul>
+
+  <p>The Foundation asked good questions. The chart says the field agrees they are good questions. What it does not yet say is whether anyone can answer them, and that is the only part worth watching.</p>
+
+  <div class="sources">
+    <h2>Sources</h2>
+    <ol>
+      <li>Avalanche Foundation, <a href="https://x.com/AvalancheFDN/status/2094451007879364721">Inside the Call for Research Proposals</a>, X, 31 August 2026. Topic distribution chart and per-area word clouds.</li>
+      <li>Eric Lu, <a href="https://x.com/eric_lu_sc/status/2094800565242929395">commentary on the submission breakdown</a>, X, 31 August 2026.</li>
+      <li>Avalanche Foundation, <a href="https://www.avax.network/about/blog/research-grants-avalanche-network-economics">The Avalanche Foundation Opens Up to $50,000 in Research Grants on Avalanche Network Economics</a>, April 2026. Source for the two named areas and their sub-questions.</li>
+      <li>Avalanche Foundation, <a href="https://www.avax.network/about/blog/avalanche-foundation-introduces-research-program-selection-committee">Introducing the Call For Research Program Selection Committee</a>.</li>
+      <li><a href="https://build.avax.network/docs/acps/77-reinventing-subnets">ACP-77: Reinventing Subnets</a>, Avalanche Builder Hub. Continuous fee model and removal of the 2,000 AVAX bond.</li>
+      <li><a href="https://build.avax.network/blog/etna-changes">What to Expect After the Etna Upgrade</a>, Avalanche Builder Hub.</li>
+      <li><a href="https://build.avax.network/docs/acps/285-reduce-minimum-consumption-rate">ACP-285: Reduce Minimum Consumption Rate</a>, Avalanche Builder Hub.</li>
+      <li><a href="https://www.avax.network/about/blog/from-static-constants-to-dynamic-variables-what-three-acps-say-about-where-avalanches-economics-are-headed">From Static Constants to Dynamic Variables</a>, avax.network, on the direction of the three economics ACPs.</li>
+    </ol>
+    <p style="font-size:0.8125rem;color:var(--faint);margin-top:1.5rem;">All percentages are as published by the Avalanche Foundation, data captured 20 August 2026. The reclustering is mine and the arithmetic is reproducible from the chart above. Staking ratio and yield figures are approximate and move; treat them as of Q3 2026.</p>
+  </div>
+
+</article>
+
+<footer>
+  <div class="wrap">
+    <a href="/blog/">All posts</a> &nbsp;·&nbsp; <a href="/">merickalkan.cv</a> &nbsp;·&nbsp; <a href="https://x.com/0xBrokkr">@0xBrokkr</a>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var isDark = document.documentElement.classList.toggle('dark');
+      try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) {}
+    });
+  })();
+</script>
+
+</body>
+</html>
