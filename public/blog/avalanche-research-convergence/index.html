@@ -212,7 +212,7 @@
 
   <p>There are two explanations that fit these clouds equally well. One is that researchers wrote toward a call that told them what would be funded. The other is that the Foundation named those two areas <em>because</em> they are the field's open questions, in which case the call and the submissions are both downstream of the same reality and the overlap is not evidence of anything. Nothing in the published data separates those.</p>
 
-  <p>That is the actual finding, and it is narrower than a headline number suggests: <strong>the 66% cannot distinguish independent convergence from a well-specified call.</strong> It is a confounded measurement, so it is the wrong place to look for a signal, whichever explanation you favour. Worth adding that the clouds are drawn only from submissions scoring 60 or above, so they describe what the Foundation rated well, which is another reason not to read them as an unfiltered picture of the field.</p>
+  <p>That is the actual finding, and it is narrower than a headline number suggests: <strong>the 66% cannot distinguish independent convergence from a well-specified call.</strong> It only shows that submissions cluster in the two largest categories. That is a confounded measurement, so it is the wrong place to look for a signal, whichever explanation you favour. Worth adding that the clouds are drawn only from submissions scoring 60 or above, so they describe what the Foundation rated well, which is another reason not to read them as an unfiltered picture of the field.</p>
 
   <h3>Where the independent signal actually is</h3>
 
@@ -226,11 +226,19 @@
 
   <p>There is a reason validator economics is the largest bucket in 2026 specifically, and it is visible in the Area 2 cloud in terms like <code>ACP SHIFT</code>, <code>AVAX BOND</code>, <code>CONTINUOUS FEE</code> and <code>NON-INFLATIONARY VALIDATOR</code>.</p>
 
-  <p>The Etna upgrade, which activated ACP-77 in December 2024, removed the 2,000 AVAX bond for L1 validators. They now pay a continuous fee instead, with a base rate near 1.33 AVAX per validator per month, adjustable by governance, and they are no longer required to sync and validate the Primary Network. Since Primary Network validation is what earned staking rewards, that moved a whole class of validator outside the emissions loop: they pay a cost to operate rather than drawing issuance for it.</p>
+  <p>The Etna upgrade, which activated ACP-77 in December 2024, removed the 2,000 AVAX bond <em>for L1 validators specifically</em>. They now pay a continuous fee instead, base rate near 1.33 AVAX per validator per month and adjustable by governance, and they are no longer required to sync and validate the Primary Network.</p>
 
-  <p>Since then the direction has continued. ACP-285 proposes reducing the MinConsumptionRate from its current 10 percent, on the argument that the floor functions as untargeted issuance inside the reward formula. Simulations put the effect at roughly 0.5 to 1 percentage point off annual inflation.</p>
+  <p>This distinction matters and is easy to blur. Primary Network validators were not changed: they still stake a 2,000 AVAX minimum and still earn staking rewards. What Etna did was create a second class of validator that sits outside the emissions loop entirely, paying a cost to operate rather than drawing issuance for it. Two validator economies now run side by side under one token, which is precisely the kind of thing that generates research questions.</p>
 
-  <p>The surrounding numbers are what make this urgent rather than theoretical. Something in the range of 55 to 58 percent of circulating AVAX is staked, staking yields have run around 7 to 8 percent annualised, and the security budget is funded entirely by issuance against a fixed 720 million supply cap. Every unit of issuance retired has to be replaced by fee revenue or by a lower required return, and nobody has published a credible estimate of what either would need to be.</p>
+  <p>Since then the direction has continued. ACP-285 reduces the MinConsumptionRate from 10 percent to 7.5 percent, leaving the maximum at 12 percent, on the argument that the floor functions as untargeted issuance inside the reward formula. It shipped as part of the Helicon bundle, which activated on the Fuji testnet on 28 July 2026 and phases the rate down over roughly 90 days; mainnet activation had not been announced at the time of writing. Modelling puts the effect at roughly 0.5 to 1 percentage point off annual inflation, pulling the minimum-duration annualised reward rate from about 5.4 percent toward 4 percent and widening the premium for staking longer.</p>
+
+  <p>The surrounding numbers are what make this urgent rather than theoretical. Roughly 43 percent of AVAX supply is staked at a headline rate near 6.7 percent, and the security budget is funded entirely by issuance against a fixed 720 million supply cap.</p>
+
+  <div class="callout">
+    <div class="label">Why "just use fee revenue" does not work here</div>
+    <p>On Avalanche, transaction fees are burned. Both the base fee and the priority fee are destroyed rather than paid to whoever produced the block, which is a deliberate difference from Ethereum.</p>
+    <p>So fee growth is not validator income. Burning offsets issuance in supply terms and accrues to holders, but a validator sees none of it, however busy the chain gets. Retiring issuance therefore cannot be paid for out of fees under the current design. It needs either a new mechanism that routes value to validators, or validators accepting a lower required return. Foundation economists have themselves floated a zero-inflation validator model along these lines. Nobody has published a credible number for what either path costs, which is exactly the hole this research programme is pointed at.</p>
+  </div>
 
   <p>BENQI put the same point more compactly under the Foundation's thread, noting that "non-inflation-based reward mechanisms" is a polite way of saying the current emission schedule has a clock on it. That is the correct read, and it is why the cost-of-security side is 44 percent of the funnel once you stop splitting it across three rows.</p>
 
@@ -240,7 +248,7 @@
 
   <p>What the surrounding structure suggests is a scope-and-quality floor rather than a tournament. Applications ran on a rolling basis, grants go up to 50,000 USD, and disbursement is staged at 30 percent on award, 30 percent at a six-month review and 40 percent on a publishable final paper. Grantees are also invited to present at the third Crafting the Cryptoeconomy conference at Columbia in autumn 2026. That is a programme built to seed a literature, not to pick a single winner.</p>
 
-  <p>The committee composition points the same way. Alongside Emin Gün Sirer and Eric Lu from Ava Labs and the Foundation, it includes Campbell Harvey of Duke, a former President of the American Finance Association, Fahad Saleh of the University of Florida and Columbia's Center for Digital Finance and Technologies, and Agostino Capponi, who directs that centre. That is a committee assembled to referee for publication, not to run a hackathon.</p>
+  <p>The committee composition points the same way. It has six members: Emin Gün Sirer of Ava Labs, Matias A., the Foundation's Chief Investment Officer, Eric Lu, its Lead Economist, Campbell Harvey of Duke and a former President of the American Finance Association, Fahad Saleh of the University of Florida and Columbia's Center for Digital Finance and Technologies, and Agostino Capponi, who directs that centre. That is a committee assembled to referee for publication, not to run a hackathon.</p>
 
   <h2>What the residual should produce</h2>
 
@@ -249,7 +257,7 @@
   <ul>
     <li>A joint model where the staking ratio is <em>endogenous</em> rather than a parameter, so that valuation and security clear at the same time instead of being solved in sequence.</li>
     <li>An empirical estimate of validator exit elasticity with respect to yield, using the post-Etna L1 fee cohort as a natural experiment. The bond removal is a clean structural break and it is now nearly two years old, which is enough data.</li>
-    <li>A number, in absolute terms, for what fee burn has to reach before issuance is replaceable at the current staking ratio. Everything else in the security budget debate is downstream of that figure and it is still being argued qualitatively.</li>
+    <li>A costed comparison of the two exits from issuance: a mechanism that actually routes value to validators, against validators simply accepting a lower required return. Since fees are burned rather than paid out, those are the only two doors, and the security budget debate is still being argued qualitatively on both.</li>
   </ul>
 
   <p>The Foundation asked good questions and the chart confirms the field thinks so too. What it does not yet tell us is whether anyone can answer them, and that is the part worth watching.</p>
@@ -265,8 +273,10 @@
       <li><a href="https://build.avax.network/blog/etna-changes">What to Expect After the Etna Upgrade</a>, Avalanche Builder Hub.</li>
       <li><a href="https://build.avax.network/docs/acps/285-reduce-minimum-consumption-rate">ACP-285: Reduce Minimum Consumption Rate</a>, Avalanche Builder Hub.</li>
       <li><a href="https://www.avax.network/about/blog/from-static-constants-to-dynamic-variables-what-three-acps-say-about-where-avalanches-economics-are-headed">From Static Constants to Dynamic Variables</a>, avax.network, on the direction of the three economics ACPs.</li>
+      <li><a href="https://build.avax.network/docs/rpcs/other/guides/txn-fees">Transaction Fees</a>, Avalanche Builder Hub. Both base fee and priority fee are burned.</li>
+      <li><a href="https://www.stakingrewards.com/asset/avalanche">Avalanche staking metrics</a>, stakingrewards.com. Staking ratio and reward rate, read 1 September 2026.</li>
     </ol>
-    <p style="font-size:0.8125rem;color:var(--faint);margin-top:1.5rem;">All percentages are as published by the Avalanche Foundation, data captured 20 August 2026. The reclustering is mine and the arithmetic is reproducible from the chart above. Staking ratio and yield figures are approximate and move; treat them as of Q3 2026.</p>
+    <p style="font-size:0.8125rem;color:var(--faint);margin-top:1.5rem;">All percentages are as published by the Avalanche Foundation, data captured 20 August 2026. The reclustering is mine and the arithmetic is reproducible from the chart above. Staking ratio and reward rate move constantly and were read on 1 September 2026; treat them as a snapshot, not a constant.</p>
   </div>
 
 </article>
