@@ -1,9 +1,11 @@
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
-import { ArrowUpRight, Github, Linkedin, Mail, MousePointer2, Code, MapPin, Palette, Moon, Sun, Download } from 'lucide-react'
-import { useState, useRef, useEffect } from 'react'
+import { ArrowUpRight, Github, Linkedin, Mail, MousePointer2, Code, MapPin, Palette, Moon, Sun, Download, X as CloseIcon, ChevronLeft, ChevronRight, CornerDownRight } from 'lucide-react'
+import { useState, useRef, useEffect, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import Matter from 'matter-js'
 import React from 'react'
-import { experience, earlierExperience, products, alsoLinks, clientWork, marketplaceProfile, selectedWork, testimonials, partnerBadges, skills, tools, education, location, contact } from './content'
+import { hero, about, experience, earlierExperience, events, eventsIntro, talks, products, openSource, alsoLinks, clientWork, marketplaceProfile, selectedWork, awards, writing, testimonials, partnerBadges, skills, tools, education, location, contact } from './content'
+import type { Media, Product, Talk, ExperienceEntry } from './content'
 
 type BodyExt = Matter.Body & { label?: string; customType?: string; textColor?: string; tooltip?: string }
 
@@ -13,6 +15,192 @@ const XLogo = ({ size = 16, className }: { size?: number, className?: string }) 
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
   </svg>
 )
+
+// --- Media: thumbnails + lightbox ---
+
+const Lightbox = ({ items, index, onClose, onIndex }: { items: Media[], index: number, onClose: () => void, onIndex: (i: number) => void }) => {
+  const closeRef = useRef<HTMLButtonElement | null>(null)
+  const item = items[index]
+  const many = items.length > 1
+  const go = useCallback((d: number) => onIndex((index + d + items.length) % items.length), [index, items.length, onIndex])
+
+  useEffect(() => {
+    const prevFocus = document.activeElement as HTMLElement | null
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    closeRef.current?.focus()
+    return () => {
+      document.body.style.overflow = prevOverflow
+      prevFocus?.focus?.()
+    }
+  }, [])
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+      else if (many && e.key === 'ArrowRight') go(1)
+      else if (many && e.key === 'ArrowLeft') go(-1)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose, go, many])
+
+  // Keep Tab focus inside the dialog
+  const trapFocus = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== 'Tab') return
+    const focusables = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('button'))
+    if (focusables.length === 0) return
+    const first = focusables[0], last = focusables[focusables.length - 1]
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
+  }
+
+  return createPortal(
+    <motion.div
+      role="dialog"
+      aria-modal="true"
+      aria-label={item.caption}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      onKeyDown={trapFocus}
+      onClick={onClose}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-white/90 dark:bg-black/90 backdrop-blur-md p-4 md:p-10 font-outfit"
+    >
+      <figure className="relative max-w-5xl w-full flex flex-col items-center gap-4" onClick={e => e.stopPropagation()}>
+        <img
+          key={item.src}
+          src={item.src}
+          alt={item.caption}
+          className="max-h-[78vh] w-auto max-w-full rounded-2xl shadow-2xl border border-neutral-200 dark:border-neutral-800 object-contain bg-neutral-100 dark:bg-neutral-900"
+        />
+        <figcaption className="text-[13px] font-medium text-neutral-600 dark:text-neutral-300 text-center px-10">
+          {item.caption}
+          {many && <span className="ml-2 font-mono text-[11px] text-neutral-400">{index + 1}/{items.length}</span>}
+        </figcaption>
+        {many && (
+          <>
+            <button type="button" onClick={() => go(-1)} aria-label="Previous image" className="absolute left-0 md:-left-14 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 dark:bg-neutral-900/80 border border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white focus-visible:outline-2 focus-visible:outline-neutral-500">
+              <ChevronLeft size={18} />
+            </button>
+            <button type="button" onClick={() => go(1)} aria-label="Next image" className="absolute right-0 md:-right-14 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 dark:bg-neutral-900/80 border border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white focus-visible:outline-2 focus-visible:outline-neutral-500">
+              <ChevronRight size={18} />
+            </button>
+          </>
+        )}
+      </figure>
+      <button
+        ref={closeRef}
+        type="button"
+        onClick={onClose}
+        aria-label="Close"
+        className="absolute top-4 right-4 p-2 rounded-full bg-neutral-100 dark:bg-neutral-900 text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white border border-neutral-200 dark:border-neutral-800 focus-visible:outline-2 focus-visible:outline-neutral-500"
+      >
+        <CloseIcon size={16} />
+      </button>
+    </motion.div>,
+    document.body
+  )
+}
+
+const useLightbox = (items: Media[]) => {
+  const [open, setOpen] = useState<number | null>(null)
+  const close = useCallback(() => setOpen(null), [])
+  const node = (
+    <AnimatePresence>
+      {open !== null && <Lightbox items={items} index={open} onClose={close} onIndex={setOpen} />}
+    </AnimatePresence>
+  )
+  return { openAt: setOpen, node }
+}
+
+const MediaRow = ({ items, className = '' }: { items: Media[], className?: string }) => {
+  const { openAt, node } = useLightbox(items)
+  return (
+    <>
+      <ul className={`flex flex-wrap gap-2 ${className}`}>
+        {items.map((it, i) => (
+          <li key={it.src}>
+            <button
+              type="button"
+              onClick={() => openAt(i)}
+              aria-label={`Open image: ${it.caption}`}
+              title={it.caption}
+              className="relative z-10 block w-[104px] md:w-[120px] aspect-[16/10] rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 hover:opacity-85 hover:border-neutral-400 dark:hover:border-neutral-600 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 cursor-zoom-in"
+            >
+              <img src={it.thumb} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
+            </button>
+          </li>
+        ))}
+      </ul>
+      {node}
+    </>
+  )
+}
+
+const EventsGrid = () => {
+  const items = events.map(e => e.image)
+  const { openAt, node } = useLightbox(items.map((img, i) => ({
+    ...img,
+    caption: [events[i].title, events[i].date, events[i].place, events[i].note].filter(Boolean).join(' · '),
+  })))
+  return (
+    <>
+      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {events.map((e, i) => (
+          <li key={e.image.src} className={i === 0 ? 'sm:col-span-2' : ''}>
+            <button
+              type="button"
+              onClick={() => openAt(i)}
+              aria-label={`Open photo: ${e.title}`}
+              className="group block w-full text-left rounded-2xl overflow-hidden bg-neutral-50 dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 cursor-zoom-in"
+            >
+              <div className={`${i === 0 ? 'aspect-[16/8]' : 'aspect-[16/10]'} overflow-hidden bg-neutral-100 dark:bg-neutral-900`}>
+                <img
+                  src={i === 0 ? e.image.src : e.image.thumb}
+                  alt={e.image.caption}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                />
+              </div>
+              <div className="p-4">
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3 className="text-[14px] font-bold text-black dark:text-white">{e.title}</h3>
+                  {e.date && <span className="text-[11px] font-mono text-neutral-400 shrink-0">{e.date}</span>}
+                </div>
+                <div className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 mt-1">{e.place}</div>
+                <p className="text-[12px] text-neutral-500 mt-1.5 leading-snug">{e.note}</p>
+              </div>
+            </button>
+          </li>
+        ))}
+      </ul>
+      {node}
+    </>
+  )
+}
+
+const TalkItem = ({ talk }: { talk: Talk }) => {
+  const body = (
+    <>
+      <div className="flex justify-between items-baseline gap-3">
+        <h4 className="text-[15px] font-bold text-black dark:text-white">{talk.title}</h4>
+        <span className="text-[11px] font-mono text-neutral-400 shrink-0">{talk.date}</span>
+      </div>
+      <div className="text-[12px] font-bold uppercase tracking-wider text-neutral-500 mt-1">{talk.event} · {talk.place}</div>
+    </>
+  )
+  return (
+    <div className="py-5 border-b border-neutral-100 dark:border-neutral-800 last:border-0">
+      {talk.link
+        ? <a href={talk.link} target="_blank" rel="noopener noreferrer" className="block hover:opacity-80 transition-opacity">{body}</a>
+        : body}
+      {talk.photo && <MediaRow items={[talk.photo]} className="mt-3" />}
+    </div>
+  )
+}
 
 // --- Components ---
 
@@ -44,7 +232,7 @@ const Tooltip = ({ content, children }: { content: string, children: React.React
   )
 }
 
-const SocialLink = ({ href, icon: Icon, label, tooltip, className = "text-neutral-500 dark:text-neutral-400" }: { href: string, icon: any, label?: string, tooltip: string, className?: string }) => (
+const SocialLink = ({ href, icon: Icon, label, tooltip, className = "text-neutral-500 dark:text-neutral-400" }: { href: string, icon: React.ElementType, label?: string, tooltip: string, className?: string }) => (
   <Tooltip content={tooltip}>
     <motion.a
       href={href}
@@ -61,15 +249,15 @@ const SocialLink = ({ href, icon: Icon, label, tooltip, className = "text-neutra
   </Tooltip>
 )
 
-const WorkItem = ({ title, role, year, link, description, badges }: { title: string, role?: string, year: string, link: string, description: string | React.ReactNode, badges?: string[] }) => (
-  <motion.a
-    href={link}
-    target="_blank"
-    rel="noopener noreferrer"
+// Cards use a "stretched link": the title link covers the whole card via ::after,
+// while thumbnails and secondary links sit above it (relative z-10) so they stay clickable.
+const stretched = "after:absolute after:inset-0 after:content-[''] focus-visible:outline-none"
+
+const WorkItem = ({ title, role, year, link, description, badges, media }: { title: string, role?: string, year: string, link: string, description: string | React.ReactNode, badges?: string[], media?: Media[] }) => (
+  <motion.div
     initial="initial"
     whileHover="hover"
-    whileTap={{ scale: 0.995 }}
-    className="group block py-8 border-b border-neutral-100 dark:border-neutral-800 last:border-0 relative overflow-hidden"
+    className="group block py-8 border-b border-neutral-100 dark:border-neutral-800 last:border-0 relative overflow-hidden has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-neutral-400 rounded-sm"
   >
     <motion.div
       variants={{ hover: { opacity: 1 } }}
@@ -78,7 +266,9 @@ const WorkItem = ({ title, role, year, link, description, badges }: { title: str
     />
     <div className="flex items-baseline justify-between mb-3 px-4 group-hover:px-6 transition-all duration-300">
       <div className="flex items-center gap-3">
-        <h3 className="text-[18px] font-bold text-black dark:text-white group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors duration-300">{title}</h3>
+        <h3 className="text-[18px] font-bold text-black dark:text-white group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors duration-300">
+          <a href={link} target="_blank" rel="noopener noreferrer" className={stretched}>{title}</a>
+        </h3>
         <motion.span
           variants={{ initial: { opacity: 0, x: -10 }, hover: { opacity: 1, x: 0 } }}
           className="text-neutral-500"
@@ -102,62 +292,80 @@ const WorkItem = ({ title, role, year, link, description, badges }: { title: str
           ))}
         </div>
       )}
+      {media && media.length > 0 && <MediaRow items={media} className="mt-3" />}
     </div>
-  </motion.a>
+  </motion.div>
 )
 
-const ProductItemMinimal = ({ title, type, link, description }: { title: string, type: string, link: string, description?: string }) => (
-  <motion.a
-    href={link}
-    target="_blank"
-    rel="noopener noreferrer"
+const ProductItemMinimal = ({ title, type, link, description, links, media }: Product) => (
+  <motion.div
     whileHover={{ scale: 1.02 }}
     whileTap={{ scale: 0.98 }}
-    className="flex items-start justify-between gap-3 p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 hover:border-black dark:hover:border-neutral-600 transition-all duration-300 group cursor-pointer"
+    className="relative flex items-start justify-between gap-3 p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 hover:border-black dark:hover:border-neutral-600 has-[a:focus-visible]:border-black dark:has-[a:focus-visible]:border-neutral-400 transition-all duration-300 group cursor-pointer"
   >
     <div className="min-w-0">
-      <h3 className="text-[14px] font-bold text-black dark:text-white group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">{title}</h3>
+      <h3 className="text-[14px] font-bold text-black dark:text-white group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
+        <a href={link} target="_blank" rel="noopener noreferrer" className={stretched}>{title}</a>
+      </h3>
       <span className="text-[10px] uppercase font-bold tracking-widest text-neutral-400">{type}</span>
       {description && <p className="mt-1.5 text-[12px] text-neutral-500 leading-snug">{description}</p>}
+      {links && links.length > 0 && (
+        <div className="relative z-10 mt-2.5 flex flex-wrap gap-1.5">
+          {links.map(l => (
+            <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-[10px] font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-neutral-500">
+              {l.label} <ArrowUpRight size={10} />
+            </a>
+          ))}
+        </div>
+      )}
+      {media && media.length > 0 && <MediaRow items={media} className="mt-3" />}
     </div>
     <div className="w-8 h-8 shrink-0 rounded-full bg-neutral-50 dark:bg-neutral-800 flex items-center justify-center text-black dark:text-white opacity-0 group-hover:opacity-100 transition-opacity">
       <ArrowUpRight size={14} />
     </div>
-  </motion.a>
+  </motion.div>
 )
 
-const AwardItem = ({ year, title, organization, description, link }: { year: string, title: string, organization: string, description: string, link?: string }) => {
-  const Container = link ? motion.a : 'div' as any
-  const props = link ? { href: link, target: "_blank", rel: "noopener noreferrer", whileHover: { x: 5 } } : {}
-
-  return (
-    <Container {...props} className={`flex gap-6 py-6 border-b border-neutral-100 dark:border-neutral-800 last:border-0 group ${link ? 'cursor-pointer hover:bg-neutral-50/50 dark:hover:bg-white/5 -mx-4 px-4 transition-colors rounded-xl' : ''}`}>
-      <div className="w-16 pt-1">
-        <span className="text-[12px] font-mono font-bold text-neutral-300 dark:text-neutral-600 group-hover:text-black dark:group-hover:text-white transition-colors">{year}</span>
+const AwardItem = ({ year, title, organization, description, link, media }: { year: string, title: string, organization: string, description: string, link?: string, media?: Media }) => (
+  <motion.div
+    whileHover={link ? { x: 5 } : undefined}
+    className={`relative flex gap-4 md:gap-6 py-6 border-b border-neutral-100 dark:border-neutral-800 last:border-0 group ${link ? 'cursor-pointer hover:bg-neutral-50/50 dark:hover:bg-white/5 -mx-4 px-4 transition-colors rounded-xl' : ''}`}
+  >
+    <div className="w-12 md:w-16 pt-1 shrink-0">
+      <span className="text-[12px] font-mono font-bold text-neutral-300 dark:text-neutral-600 group-hover:text-black dark:group-hover:text-white transition-colors">{year}</span>
+    </div>
+    <div className="flex-grow min-w-0">
+      <div className="flex items-center gap-2">
+        <h4 className="text-[15px] font-bold text-black dark:text-white mb-1 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
+          {link ? <a href={link} target="_blank" rel="noopener noreferrer" className={stretched}>{title}</a> : title}
+        </h4>
+        {link && <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity text-neutral-400" />}
       </div>
-      <div className="flex-grow">
-        <div className="flex items-center gap-2">
-          <h4 className="text-[15px] font-bold text-black dark:text-white mb-1 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">{title}</h4>
-          {link && <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity text-neutral-400" />}
-        </div>
-        <div className="text-[12px] font-bold uppercase tracking-wider text-neutral-500 mb-2">{organization}</div>
-        <p className="text-[13px] text-neutral-400 leading-relaxed max-w-md">{description}</p>
-      </div>
-    </Container>
-  )
-}
+      <div className="text-[12px] font-bold uppercase tracking-wider text-neutral-500 mb-2">{organization}</div>
+      <p className="text-[13px] text-neutral-400 leading-relaxed max-w-md">{description}</p>
+    </div>
+    {media && <MediaRow items={[media]} className="shrink-0 self-center" />}
+  </motion.div>
+)
 
-const ExperienceItem = ({ role, company, period, description, muted }: { role: string, company: string, period: string, description: string | React.ReactNode, muted?: boolean }) => {
+const ExperienceItem = ({ role, company, period, description, previous, media, muted }: ExperienceEntry & { muted?: boolean }) => {
   const isPresent = !muted && (period.toLowerCase().includes('present') || period.toLowerCase().includes('devam'))
   return (
     <div className={`py-6 pl-6 ml-2 relative group ${muted ? 'border-l border-neutral-200 dark:border-neutral-700' : 'border-l-2 border-neutral-100 dark:border-neutral-800'}`}>
       <div className={`absolute -left-[5px] top-8 w-2.5 h-2.5 rounded-full border-2 border-white dark:border-black transition-all duration-300 z-10 ${muted ? 'bg-neutral-300 dark:bg-neutral-600' : isPresent ? 'bg-emerald-500 shadow-[0_0_0_4px_rgba(16,185,129,0.1)]' : 'bg-neutral-300 dark:bg-neutral-700 group-hover:bg-neutral-400'}`} />
-      <div className="flex justify-between items-baseline mb-1">
+      <div className="flex justify-between items-baseline gap-3 mb-1">
         <h4 className={`text-[15px] font-bold transition-colors ${muted ? 'text-neutral-600 dark:text-neutral-400' : 'text-black dark:text-white group-hover:text-neutral-700 dark:group-hover:text-neutral-300'}`}>{role}</h4>
-        <span className="text-[11px] font-mono text-neutral-400">{period}</span>
+        <span className="text-[11px] font-mono text-neutral-400 shrink-0">{period}</span>
       </div>
       <div className={`text-[13px] font-bold mb-2 uppercase tracking-wide ${muted ? 'text-neutral-400 dark:text-neutral-500' : 'text-neutral-500 dark:text-neutral-400'}`}>{company}</div>
+      {previous && (
+        <div className="flex justify-between items-baseline gap-3 mb-2 text-[12px] text-neutral-400 dark:text-neutral-500">
+          <span className="inline-flex items-center gap-1.5"><CornerDownRight size={12} className="shrink-0" />Promoted from {previous.role}</span>
+          <span className="text-[11px] font-mono shrink-0">{previous.period}</span>
+        </div>
+      )}
       <p className={`text-[13px] leading-relaxed ${muted ? 'text-neutral-500 dark:text-neutral-500' : 'text-neutral-500'}`}>{description}</p>
+      {media && media.length > 0 && <MediaRow items={media} className="mt-4" />}
     </div>
   )
 }
@@ -177,7 +385,7 @@ const TestimonialItem = ({ quote, author, role }: { quote: string, author: strin
   </div>
 )
 
-const UseItem = ({ name, category, icon: Icon }: { name: string, category?: string, icon: any }) => (
+const UseItem = ({ name, category, icon: Icon }: { name: string, category?: string, icon: React.ElementType }) => (
   <div className="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-600 transition-colors group">
     <div className="text-neutral-400 dark:text-neutral-500 group-hover:text-black dark:group-hover:text-white transition-colors">
       <Icon size={16} />
@@ -272,7 +480,7 @@ const DynamicIsland = () => {
             </div>
             <div className="flex flex-col justify-center whitespace-nowrap overflow-hidden">
               <span className="text-[13px] font-semibold text-white leading-tight">Meriç Kalkan</span>
-              <span className="text-[11px] text-white/50 font-medium">Designer & Builder</span>
+              <span className="text-[11px] text-white/50 font-medium">Product Builder</span>
             </div>
           </div>
 
@@ -421,14 +629,16 @@ const PhysicsPlayground = ({ isDark }: { isDark: boolean }) => {
       createTextBody(width / 1.8, 200, 'Interaction', 'text', bubbleBg, bubbleText),
       createTextBody(width / 4, 100, 'Protocol', 'text', bubbleText, bubbleBg),
       createTextBody(width / 1.3, 120, 'UI', 'text', bubbleBg, bubbleText),
-      createTextBody(width / 1.6, 80, 'Data', 'text', bubbleText, bubbleBg),
+      createTextBody(width / 1.6, 80, 'Agents', 'text', bubbleText, bubbleBg),
       createTextBody(width / 3, 220, 'Motion', 'text', bubbleBg, bubbleText),
       // Product names (with hover tooltips)
-      createTextBody(width / 2, 80, 'SOCI4L', 'text', bubbleText, bubbleBg, 'On-chain reputation layer'),
-      createTextBody(width / 1.1, 200, 'ColorSense', 'text', bubbleText, bubbleBg, 'AI color tool'),
-      createTextBody(width / 2.2, 300, 'Team1', 'text', bubbleBg, bubbleText, 'Avalanche Türkiye community'),
-      createTextBody(width / 3.5, 90, 'Floyka', 'text', bubbleText, bubbleBg, 'Digital product studio'),
-      createTextBody(width / 1.4, 280, 'Labs', 'text', bubbleBg, bubbleText, 'Experimental design research'),
+      createTextBody(width / 2, 80, 'SOCI4L', 'text', bubbleText, bubbleBg, 'On-chain reputation, now with a grant or two'),
+      createTextBody(width / 1.25, 260, 'StampUI', 'text', bubbleBg, bubbleText, 'UI blocks you actually own'),
+      createTextBody(width / 1.1, 200, 'ColorSense', 'text', bubbleText, bubbleBg, 'Palettes from plain words'),
+      createTextBody(width / 2.2, 300, 'Team1', 'text', bubbleBg, bubbleText, 'Hundreds of events and counting 🔺'),
+      createTextBody(width / 3.5, 90, 'Floyka', 'text', bubbleText, bubbleBg, 'The studio where it started'),
+      createTextBody(width / 1.4, 280, 'unsnitch', 'text', bubbleText, bubbleBg, 'Stops X from snitching on your links'),
+      createTextBody(width / 6, 300, 'multiclaude', 'text', bubbleBg, bubbleText, 'One Claude Code chat, a parallel team'),
       // Emojis
       createTextBody(width / 6, 180, '🎨', 'emoji'),
       createTextBody(width / 1.15, 70, '⚡', 'emoji'),
@@ -670,18 +880,14 @@ function App() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <RoleTooltip
-                  role="Creative Director"
-                  content="Directing brand vision, visual identity, and design systems at Floyka Design Studio."
-                  icon={Palette}
-                />
+                <RoleTooltip role={hero.roles[0].role} content={hero.roles[0].tooltip} icon={Code} />
               </motion.div>{' '}
               <motion.span
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                &
+                {hero.joiner}
               </motion.span>{' '}
               <motion.div
                 className="inline-block"
@@ -689,33 +895,29 @@ function App() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <RoleTooltip
-                  role="Product Builder"
-                  content="Building SOCI4L on Avalanche, and design tools used across the Framer and Figma communities."
-                  icon={Code}
-                />
-              </motion.div>{' '}
+                <RoleTooltip role={hero.roles[1].role} content={hero.roles[1].tooltip} icon={Palette} />
+              </motion.div>
               <motion.span
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                who designs brand systems and ships them as working products.
+                {hero.tagline}
               </motion.span>
             </h1>
 
             <div className="flex flex-wrap gap-6 mb-12 items-center text-[11px] font-bold uppercase tracking-widest text-neutral-400">
-              <div className="flex items-center gap-2 text-black/80 dark:text-neutral-200">
-                <span className="w-1.5 h-1.5 rounded-full bg-black/80 dark:bg-white" />
-                Floyka Studio
-              </div>
               <div className="flex items-center gap-2 hover:text-red-500 transition-colors cursor-default">
                 <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                Avalanche Team1
+                {hero.orgs[0]}
               </div>
-              <div className="flex items-center gap-2 hover:text-black transition-colors cursor-default">
+              <div className="flex items-center gap-2 text-black/80 dark:text-neutral-200">
+                <span className="w-1.5 h-1.5 rounded-full bg-black/80 dark:bg-white" />
+                {hero.orgs[1]}
+              </div>
+              <div className="flex items-center gap-2 hover:text-black dark:hover:text-white transition-colors cursor-default">
                 <span className="w-1.5 h-1.5 rounded-full bg-neutral-300" />
-                SOCI4L
+                {hero.orgs[2]}
               </div>
             </div>
 
@@ -732,20 +934,11 @@ function App() {
         <section id="about" className="mb-40 grid grid-cols-1 md:grid-cols-2 gap-16">
           <div>
             <SectionTitle>About Me</SectionTitle>
-            <p className="text-[14px] leading-relaxed text-neutral-500 font-medium mb-6">
-              For me, creating always started with computers and tools.
-              I progressed by building systems and experiences, driven by a curiosity that spanned from games to software, and from visuals to products.
-            </p>
-            <p className="text-[14px] leading-relaxed text-neutral-500 font-medium mb-6">
-              Today that means shipping constantly: leading SOCI4L, an on-chain reputation layer on Avalanche; building 12 plugins for the Framer and Figma marketplaces; and delivering brand and web systems through Floyka for clients ranging from developer platforms to IRL conferences.
-              The fields may change, but my approach remains the same: think, build, run, share.
-            </p>
-            <p className="text-[14px] leading-relaxed text-neutral-500 font-medium mb-6">
-              I work AI-augmented by default: agentic workflows handle the repetitive parts of design and code, so I can focus on direction, systems, and quality. It's how one person ships at the pace of a small studio.
-            </p>
-            <p className="text-[14px] leading-relaxed text-neutral-500 font-medium mb-6">
-              Alongside building, I help grow the Avalanche Türkiye community with Team1, telling the ecosystem's story and spotlighting the builders behind it.
-            </p>
+            {about.map((p, i) => (
+              <p key={i} className="text-[14px] leading-relaxed text-neutral-500 font-medium mb-6 [&_strong]:text-neutral-700 dark:[&_strong]:text-neutral-300">
+                {p}
+              </p>
+            ))}
           </div>
           <div>
             <SectionTitle>Skills & Stack</SectionTitle>
@@ -779,7 +972,7 @@ function App() {
           </div>
         </section>
 
-        {/* Tools I Create With — design-driven, no dev-stack labels */}
+        {/* Tools I Create With */}
         <section id="stack" className="mb-40">
           <SectionTitle>Tools I Create With</SectionTitle>
           <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-fr gap-4">
@@ -794,7 +987,7 @@ function App() {
           <SectionTitle>Experience</SectionTitle>
           <div className="space-y-2">
             {experience.map(e => (
-              <ExperienceItem key={`${e.role}-${e.company}`} role={e.role} company={e.company} period={e.period} description={e.description} />
+              <ExperienceItem key={`${e.role}-${e.company}`} {...e} />
             ))}
 
             {/* Earlier — always visible, same in light/dark (no collapse) */}
@@ -802,19 +995,40 @@ function App() {
               <div className="text-[11px] font-bold uppercase tracking-widest text-neutral-500 mb-1 pl-6 ml-2">Earlier · Community & Media</div>
               <div className="space-y-2">
                 {earlierExperience.map(e => (
-                  <ExperienceItem key={`${e.role}-${e.company}`} muted role={e.role} company={e.company} period={e.period} description={e.description} />
+                  <ExperienceItem key={`${e.role}-${e.company}`} muted {...e} />
                 ))}
               </div>
             </div>
           </div>
         </section>
 
+        {/* Events & Community — team work (Team1 Türkiye) */}
+        <section id="events" className="mb-40">
+          <SectionTitle>Events & Community</SectionTitle>
+          <p className="text-[14px] leading-relaxed text-neutral-500 font-medium mb-8 max-w-xl">
+            {eventsIntro} <span aria-hidden="true">🔺</span>
+          </p>
+          <EventsGrid />
+        </section>
+
+        {/* Speaking — rendered only when there are talks */}
+        {talks.length > 0 && (
+          <section id="speaking" className="mb-40">
+            <SectionTitle>Speaking</SectionTitle>
+            <div>
+              {talks.map(t => (
+                <TalkItem key={`${t.date}-${t.title}`} talk={t} />
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Products — ana ürün → core tools → kits */}
         <section id="products" className="mb-40">
           <SectionTitle>Products</SectionTitle>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {products.map(p => (
-              <ProductItemMinimal key={p.title} title={p.title} type={p.type} link={p.link} description={p.description} />
+              <ProductItemMinimal key={p.title} {...p} />
             ))}
           </div>
           <div className="mt-4 flex items-center justify-between flex-wrap gap-2">
@@ -823,6 +1037,15 @@ function App() {
               {marketplaceProfile.label} <ArrowUpRight size={12} />
             </a>
           </div>
+
+          <div className="mt-12">
+            <div className="text-[11px] font-bold uppercase tracking-widest text-neutral-400 dark:text-neutral-500 mb-4">Open Source</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {openSource.map(p => (
+                <ProductItemMinimal key={p.title} {...p} />
+              ))}
+            </div>
+          </div>
         </section>
 
         {/* Selected Products — ürün odaklı showcase */}
@@ -830,7 +1053,7 @@ function App() {
           <SectionTitle>Selected Products</SectionTitle>
           <div className="space-y-4">
             {selectedWork.map(w => (
-              <WorkItem key={w.title} title={w.title} year={w.year} description={w.description} link={w.link} badges={w.badges} />
+              <WorkItem key={w.title} title={w.title} year={w.year} description={w.description} link={w.link} badges={w.badges} media={w.media} />
             ))}
           </div>
           <div className="mt-6 pt-6 border-t border-neutral-100 dark:border-neutral-800">
@@ -839,7 +1062,9 @@ function App() {
               {clientWork.map((l, i) => (
                 <React.Fragment key={l.label}>
                   {i > 0 && <span className="text-neutral-300 dark:text-neutral-600">·</span>}
-                  <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-[13px] text-neutral-500 hover:text-black dark:hover:text-white transition-colors">{l.label}</a>
+                  {l.href
+                    ? <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-[13px] text-neutral-500 hover:text-black dark:hover:text-white transition-colors">{l.label}</a>
+                    : <span className="text-[13px] text-neutral-500">{l.label}</span>}
                 </React.Fragment>
               ))}
             </div>
@@ -870,15 +1095,38 @@ function App() {
         {/* Awards */}
         <section id="awards" className="mb-40">
           <SectionTitle>Awards & Recognition</SectionTitle>
-          <div className="bg-neutral-50 dark:bg-neutral-900 rounded-3xl p-8 border border-neutral-100 dark:border-neutral-800">
-            <AwardItem
-              year="2024"
-              title="Site of the Year"
-              organization="Framer"
-              link="https://x.com/0xBrokkr/status/1859966897896440000?s=20"
-              description="Awarded for excellence in web design and interactivity. Recipient of the official Framer Site of the Year pin."
-            />
+          <div className="bg-neutral-50 dark:bg-neutral-900 rounded-3xl p-6 md:p-8 border border-neutral-100 dark:border-neutral-800">
+            {awards.map(a => (
+              <AwardItem key={a.title} {...a} />
+            ))}
+          </div>
+        </section>
 
+        {/* Writing & Research */}
+        <section id="writing" className="mb-40">
+          <SectionTitle>Writing & Research</SectionTitle>
+          <div>
+            {writing.map(w => {
+              const external = w.href.startsWith('http')
+              return (
+                <a
+                  key={w.href}
+                  href={w.href}
+                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  className="group flex gap-4 md:gap-6 py-5 border-b border-neutral-100 dark:border-neutral-800 last:border-0 hover:bg-neutral-50/50 dark:hover:bg-white/5 -mx-4 px-4 rounded-xl transition-colors"
+                >
+                  <span className="w-16 shrink-0 pt-0.5 text-[11px] font-mono text-neutral-400">{w.date}</span>
+                  <span className="min-w-0">
+                    <span className="flex items-center gap-2">
+                      <span className="text-[15px] font-bold text-black dark:text-white group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">{w.title}</span>
+                      <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity text-neutral-400 shrink-0" />
+                    </span>
+                    <span className="block text-[11px] font-bold uppercase tracking-wider text-neutral-500 mt-1">{w.kind}</span>
+                    <span className="block text-[13px] text-neutral-400 leading-relaxed mt-1.5">{w.description}</span>
+                  </span>
+                </a>
+              )
+            })}
           </div>
         </section>
 
